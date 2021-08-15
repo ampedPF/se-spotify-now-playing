@@ -1,0 +1,23 @@
+{
+    "updateRefreshRate": 500,
+    "spotify": {
+        "client_id": "your_client_id",
+        "client_secret": "your_client_secret",
+        "access_token": "your_access_token",
+        "refresh_token": "your_refresh_token"
+    },
+    "songinfo": {
+        "maxLength": {
+            "artist": 35,
+            "album": 50,
+            "title": 30,
+            "previous": 38
+        },
+        "scrollingDelay": 1500
+    },
+    "prefixes": {
+        "title": "",
+        "artist": "",
+        "album": ""
+    }
+}
