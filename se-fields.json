@@ -1,0 +1,79 @@
+{
+    "updateRefreshRate": {
+      "type": "number",
+      "label": "Update refresh rate (in ms)",
+      "value": 500,
+      "group": "Widget's Configuration"
+    },
+    "displayPrevious": {
+        "type": "checkbox",
+        "label": "Display Previous Track Info",
+        "group": "Widget's Configuration"
+    },
+    "previousLocation": {
+        "type": "dropdown",
+        "label": "Previous Track Info Location",
+        "value": "1",
+        "options": {
+            "0": "Above",
+            "1": "Under"
+        },
+        "group": "Widget's Configuration"
+    },
+
+    "client_id": {
+      "type": "text",
+      "label": "Client ID",
+      "value": "",
+      "group": "Spotify"
+    },
+    "client_secret": {
+      "type": "text",
+      "label": "Client Secret",
+      "value": "",
+      "group": "Spotify"
+    },
+    "access_token": {
+      "type": "text",
+      "label": "Access Token",
+      "value": "",
+      "group": "Spotify"
+    },
+    "refresh_token": {
+      "type": "text",
+      "label": "Refresh Token",
+      "value": "",
+      "group": "Spotify"
+    },
+    
+    "maxLength_artist": {
+      "type": "number",
+      "label": "Max length of artist field before scrolling starts",
+      "value": 35,
+      "group": "Track Info Configuration"
+    },
+    "maxLength_album": {
+      "type": "number",
+      "label": "Max length of album field before scrolling starts",
+      "value": 50,
+      "group": "Track Info Configuration"
+    },
+    "maxLength_name": {
+      "type": "number",
+      "label": "Max length of track name field before scrolling starts",
+      "value": 30,
+      "group": "Track Info Configuration"
+    },
+    "maxLength_previous": {
+      "type": "number",
+      "label": "Max length of previous field before scrolling starts",
+      "value": 38,
+      "group": "Track Info Configuration"
+    },
+    "scrollingDelay": {
+      "type": "number",
+      "label": "Delay (in ms) after which scrolling starts",
+      "value": 1500,
+      "group": "Track Info Configuration"
+    }
+}
