@@ -6,13 +6,52 @@
     <title>spotify-now-playing</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <!-- <link rel='stylesheet' type='text/css' media='screen' href='main.css'> -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family={{titleFontName}}:400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family={{artistsFontName}}:400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family={{albumFontName}}:400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family={{durationFontName}}:400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family={{previousFontName}}:400,700" rel="stylesheet">
     <script src="./main.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <p id="artist"></p>
+    <!-- <p id="artist"></p>
     <p id="album"></p>
     <p id="track"></p>
-    <p id="previous"></p>
+    <p id="previous"></p> -->
+    <div id="container">
+        <div id="div-current">
+            <div id="div-cover">
+                <img id="cover" />
+            </div>
+            <div id="div-song">
+                <div id="div-title">
+                    <span id="title-prefix"></span><span id="title"></span>
+                </div>
+                <div id="div-artist">
+                    <span id="artist-prefix"></span><span id="artist"></span>
+                </div>
+                <div id="div-album">
+                    <span id="album-prefix"></span><span id="album"></span>
+                </div>
+                <div id="div-duration">
+                    <div id="div-progress">
+                        <div id="div-bar"></div>
+                    </div>
+                    <div id="div-duration-row">
+                        <div id="div-duration-current"><span id="duration-current"></span></div>
+                        <div id="div-duration-total"><span id="duration-total"></span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="div-previous-row">
+            <div id="div-previous-prefix">
+                <i id="previous-prefix" class="fi-xnlrxl-download"></i>
+            </div>
+            <div id="div-previous"><span id="previous"></span></div>
+        </div>
+    </div>
 </body>
 </html>

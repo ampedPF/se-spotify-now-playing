@@ -1,79 +1,719 @@
 {
-    "updateRefreshRate": {
-      "type": "number",
-      "label": "Update refresh rate (in ms)",
-      "value": 500,
-      "group": "Widget's Configuration"
+  "chatCommandsEnabled": {
+    "type": "dropdown",
+    "label": "Enable Chat Commands",
+    "value": "1",
+    "options": {
+        "1": "Yes",
+        "0": "No"
     },
-    "displayPrevious": {
-        "type": "checkbox",
-        "label": "Display Previous Track Info",
-        "group": "Widget's Configuration"
-    },
-    "previousLocation": {
-        "type": "dropdown",
-        "label": "Previous Track Info Location",
-        "value": "1",
-        "options": {
-            "0": "Above",
-            "1": "Under"
-        },
-        "group": "Widget's Configuration"
-    },
+    "group": "Commands Configuration"
+  },
+  "chatCommandCurrent": {
+    "label": "Chat Command for Current Track Info",
+    "type": "text",
+    "value": "!current",
+    "group": "Commands Configuration"
+  },
+  "chatTextCurrent": {
+    "label": "Current Track response [[track]] / [[album]] / [[artists]] / [[url]]",
+    "type": "text",
+    "value": "The current track is \"[[track]]\" by [[artists]] ([[url]]).",
+    "group": "Commands Configuration"
+  },
+  "chatCommandPrevious": {
+    "label": "Chat Command for Previous Track Info",
+    "type": "text",
+    "value": "!previous",
+    "group": "Commands Configuration"
+  },
+  "chatTextPrevious": {
+    "label": "Current Track response [[track]] / [[album]] / [[artists]] / [[url]]",
+    "type": "text",
+    "value": "The previous track was \"[[track]]\" by [[artists]] ([[url]]).",
+    "group": "Commands Configuration"
+  },
+  "chatTextError": {
+    "label": "Error response",
+    "type": "text",
+    "value": "No information found",
+    "group": "Commands Configuration"
+  },
 
-    "client_id": {
-      "type": "text",
-      "label": "Client ID",
-      "value": "",
-      "group": "Spotify"
+  "updateRefreshRate": {
+    "type": "number",
+    "label": "Update refresh rate (in ms)",
+    "value": 500,
+    "group": "Widget's Configuration"
+  },
+  "coverLocation": {
+    "type": "dropdown",
+    "label": "Cover Location",
+    "value": "0",
+    "options": {
+        "0": "Left",
+        "2": "Right"
     },
-    "client_secret": {
-      "type": "text",
-      "label": "Client Secret",
-      "value": "",
-      "group": "Spotify"
+    "group": "Widget's Configuration"
+  },
+  "titleLocation": {
+    "type": "dropdown",
+    "label": "Track Title Location",
+    "value": "0",
+    "options": {
+        "0": "Top row",
+        "1": "First middle row",
+        "2": "Second middle row",
+        "3": "Bottom row"
     },
-    "access_token": {
-      "type": "text",
-      "label": "Access Token",
-      "value": "",
-      "group": "Spotify"
+    "group": "Widget's Configuration"
+  },
+  "artistsLocation": {
+    "type": "dropdown",
+    "label": "Artists Location",
+    "value": "1",
+    "options": {
+        "0": "Top row",
+        "1": "First middle row",
+        "2": "Second middle row",
+        "3": "Bottom row"
     },
-    "refresh_token": {
-      "type": "text",
-      "label": "Refresh Token",
-      "value": "",
-      "group": "Spotify"
+    "group": "Widget's Configuration"
+  },
+  "albumLocation": {
+    "type": "dropdown",
+    "label": "Album Location",
+    "value": "2",
+    "options": {
+        "0": "Top row",
+        "1": "First middle row",
+        "2": "Second middle row",
+        "3": "Bottom row"
     },
+    "group": "Widget's Configuration"
+  },
+  "progressLocation": {
+    "type": "dropdown",
+    "label": "Progress Location",
+    "value": "3",
+    "options": {
+        "0": "Top row",
+        "1": "First middle row",
+        "2": "Second middle row",
+        "3": "Bottom row"
+    },
+    "group": "Widget's Configuration"
+  },
+  "displayPrevious": {
+    "type": "dropdown",
+    "label": "Display Previous Track Info",
+    "value": "flex",
+    "options": {
+        "flex": "Yes",
+        "none": "No"
+    },
+    "group": "Widget's Configuration"
+  },
+  "previousLocation": {
+      "type": "dropdown",
+      "label": "Previous Track Info Location",
+      "value": "2",
+      "options": {
+          "0": "Above",
+          "2": "Below"
+      },
+      "group": "Widget's Configuration"
+  },
+
+  "client_id": {
+    "type": "text",
+    "label": "Client ID",
+    "value": "",
+    "group": "Spotify"
+  },
+  "client_secret": {
+    "type": "text",
+    "label": "Client Secret",
+    "value": "",
+    "group": "Spotify"
+  },
+  "access_token": {
+    "type": "text",
+    "label": "Access Token",
+    "value": "",
+    "group": "Spotify"
+  },
+  "refresh_token": {
+    "type": "text",
+    "label": "Refresh Token",
+    "value": "",
+    "group": "Spotify"
+  },
+  
+  "account_id": {
+    "type": "text",
+    "label": "Account ID",
+    "value": "",
+    "group": "StreamElements"
+  },
+  "jwt_token": {
+    "type": "text",
+    "label": "JWT Token",
+    "value": "",
+    "group": "StreamElements"
+  },
     
-    "maxLength_artist": {
-      "type": "number",
-      "label": "Max length of artist field before scrolling starts",
-      "value": 35,
-      "group": "Track Info Configuration"
+  "maxLength_title": {
+    "type": "number",
+    "label": "Max length of Title field before scrolling starts",
+    "value": 30,
+    "group": "Scrolling Config"
+  },
+  "maxLength_artists": {
+    "type": "number",
+    "label": "Max length of Artist field before scrolling starts",
+    "value": 35,
+    "group": "Scrolling Config"
+  },
+  "maxLength_album": {
+    "type": "number",
+    "label": "Max length of Album field before scrolling starts",
+    "value": 50,
+    "group": "Scrolling Config"
+  },
+  "maxLength_previous": {
+    "type": "number",
+    "label": "Max length of Previous field before scrolling starts",
+    "value": 38,
+    "group": "Scrolling Config"
+  },
+  "scrollingDelay": {
+    "type": "number",
+    "label": "Delay (in ms) after which scrolling starts",
+    "value": 1500,
+    "group": "Scrolling Config"
+  },
+
+    
+  "titleAlignment": {
+    "label": "Text Alignment",
+    "type": "dropdown",
+    "value": "",
+    "options": {
+      "none": "Left",
+      "auto": "Right"
     },
-    "maxLength_album": {
-      "type": "number",
-      "label": "Max length of album field before scrolling starts",
-      "value": 50,
-      "group": "Track Info Configuration"
+    "group": "Title Text Config"
+  },
+  "titleColor": {
+    "label": "Color",
+    "type": "colorpicker",
+    "value": "#ffffff",
+    "group": "Title Text Config"
+  },
+  "titleFontName": {
+    "label": "Font Name",
+    "type": "googleFont",
+    "value": "Roboto",
+    "group": "Title Text Config"
+  },
+  "titleFontSize": {
+    "label": "Font Size",
+    "type": "number",
+    "value": 48,
+    "group": "Title Text Config"
+  },
+  "titleFontWeight": {
+    "label": "Font Weight",
+    "type": "dropdown",
+    "value": "400",
+    "options": {
+      "100": "Thin (100)",
+      "300": "Light (300)",
+      "400": "Regular (400)",
+      "500": "Medium (500)",
+      "700": "Bold (700)",
+      "900": "Black (900)"
     },
-    "maxLength_name": {
-      "type": "number",
-      "label": "Max length of track name field before scrolling starts",
-      "value": 30,
-      "group": "Track Info Configuration"
+    "group": "Title Text Config"
+  },
+  "titleTextTransform": {
+    "label": "Text Transform",
+    "type": "dropdown",
+    "value": "Capitalize",
+    "options": {
+      "capitalize": "Capitalize",
+      "lowercase": "lowercase",
+      "none": "None",
+      "uppercase": "UPPERCASE"
     },
-    "maxLength_previous": {
-      "type": "number",
-      "label": "Max length of previous field before scrolling starts",
-      "value": 38,
-      "group": "Track Info Configuration"
+    "group": "Title Text Config"
+  },
+  "titleShadowH": {
+    "label": "Shadow Horizontal Position",
+    "type": "number",
+    "value": 0,
+    "group": "Title Text Config"
+  },
+  "titleShadowV": {
+    "label": "Shadow Vertical Position",
+    "type": "number",
+    "value": 0,
+    "group": "Title Text Config"
+  },
+  "titleShadowB": {
+    "label": "Shadow Blur",
+    "type": "number",
+    "value": 0,
+    "group": "Title Text Config"
+  },
+  "titleShadowColor": {
+    "label": "Shadow Color",
+    "type": "colorpicker",
+    "value": "#000000",
+    "group": "Title Text Config"
+  },
+  
+  "artistsAlignment": {
+    "label": "Text Alignment",
+    "type": "dropdown",
+    "value": "none",
+    "options": {
+      "none": "Left",
+      "auto": "Right"
     },
-    "scrollingDelay": {
-      "type": "number",
-      "label": "Delay (in ms) after which scrolling starts",
-      "value": 1500,
-      "group": "Track Info Configuration"
-    }
+    "group": "Artists Text Config"
+  },
+  "artistsColor": {
+    "label": "Color",
+    "type": "colorpicker",
+    "value": "#707070",
+    "group": "Artists Text Config"
+  },
+  "artistsFontName": {
+    "label": "Font Name",
+    "type": "googleFont",
+    "value": "Roboto",
+    "group": "Artists Text Config"
+  },
+  "artistsFontSize": {
+    "label": "Font Size",
+    "type": "number",
+    "value": 36,
+    "group": "Artists Text Config"
+  },
+  "artistsFontWeight": {
+    "label": "Font Weight",
+    "type": "dropdown",
+    "value": "700",
+    "options": {
+      "100": "Thin (100)",
+      "300": "Light (300)",
+      "400": "Regular (400)",
+      "500": "Medium (500)",
+      "700": "Bold (700)",
+      "900": "Black (900)"
+    },
+    "group": "Artists Text Config"
+  },
+  "artistsTextTransform": {
+    "label": "Text Transform",
+    "type": "dropdown",
+    "value": "none",
+    "options": {
+      "capitalize": "Capitalize",
+      "lowercase": "lowercase",
+      "none": "None",
+      "uppercase": "UPPERCASE"
+    },
+    "group": "Artists Text Config"
+  },
+  "artistsShadowH": {
+    "label": "Shadow Horizontal Position",
+    "type": "number",
+    "value": 0,
+    "group": "Artists Text Config"
+  },
+  "artistsShadowV": {
+    "label": "Shadow Vertical Position",
+    "type": "number",
+    "value": 0,
+    "group": "Artists Text Config"
+  },
+  "artistsShadowB": {
+    "label": "Shadow Blur",
+    "type": "number",
+    "value": 0,
+    "group": "Artists Text Config"
+  },
+  "artistsShadowColor": {
+    "label": "Shadow Color",
+    "type": "colorpicker",
+    "value": "#000000",
+    "group": "Artists Text Config"
+  },
+  
+  "albumAlignment": {
+    "label": "Text Alignment",
+    "type": "dropdown",
+    "value": "none",
+    "options": {
+      "none": "Left",
+      "auto": "Right"
+    },
+    "group": "Album Text Config"
+  },
+  "albumColor": {
+    "label": "Color",
+    "type": "colorpicker",
+    "value": "#7b7ba7",
+    "group": "Album Text Config"
+  },
+  "albumFontName": {
+    "label": "Font Name",
+    "type": "googleFont",
+    "value": "Roboto",
+    "group": "Album Text Config"
+  },
+  "albumFontSize": {
+    "label": "Font Size",
+    "type": "number",
+    "value": 32,
+    "group": "Album Text Config"
+  },
+  "albumFontWeight": {
+    "label": "Font Weight",
+    "type": "dropdown",
+    "value": "700",
+    "options": {
+      "100": "Thin (100)",
+      "300": "Light (300)",
+      "400": "Regular (400)",
+      "500": "Medium (500)",
+      "700": "Bold (700)",
+      "900": "Black (900)"
+    },
+    "group": "Album Text Config"
+  },
+  "albumTextTransform": {
+    "label": "Text Transform",
+    "type": "dropdown",
+    "value": "none",
+    "options": {
+      "capitalize": "Capitalize",
+      "lowercase": "lowercase",
+      "none": "None",
+      "uppercase": "UPPERCASE"
+    },
+    "group": "Album Text Config"
+  },
+  "albumShadowH": {
+    "label": "Shadow Horizontal Position",
+    "type": "number",
+    "value": 0,
+    "group": "Album Text Config"
+  },
+  "albumShadowV": {
+    "label": "Shadow Vertical Position",
+    "type": "number",
+    "value": 0,
+    "group": "Album Text Config"
+  },
+  "albumShadowB": {
+    "label": "Shadow Blur",
+    "type": "number",
+    "value": 0,
+    "group": "Album Text Config"
+  },
+  "albumShadowColor": {
+    "label": "Shadow Color",
+    "type": "colorpicker",
+    "value": "#000000",
+    "group": "Album Text Config"
+  },
+  
+  "progressCurrentColor": {
+    "label": "Current Progress Color",
+    "type": "colorpicker",
+    "value": "#b3b3b3",
+    "group": "Progress Bar Color Config"
+  },
+  "progressTotalBGColor": {
+    "label": "Total Duration Color",
+    "type": "colorpicker",
+    "value": "#535353",
+    "group": "Progress Bar Color Config"
+  },
+  "progressDirection": {
+    "label": "Text Location",
+    "type": "dropdown",
+    "value": "1",
+    "options": {
+      "1": "Left to Right",
+      "-1": "Right to Left"
+    },
+    "group": "Progress Bar Color Config"
+  },
+
+  "durationLocation": {
+    "label": "Text Location",
+    "type": "dropdown",
+    "value": "2",
+    "options": {
+      "0": "Above",
+      "2": "Below"
+    },
+    "group": "Duration Text Config"
+  },
+  "progressTotalLocation": {
+    "label": "Progress/Total Duration Text Location",
+    "type": "dropdown",
+    "value": "row",
+    "options": {
+      "row": "Progress Left - Total Right",
+      "row-reverse": "Progress Right - Total Left"
+    },
+    "group": "Duration Text Config"
+  },
+  "durationColor": {
+    "label": "Color",
+    "type": "colorpicker",
+    "value": "#707070",
+    "group": "Duration Text Config"
+  },
+  "durationFontName": {
+    "label": "Font Name",
+    "type": "googleFont",
+    "value": "Roboto",
+    "group": "Duration Text Config"
+  },
+  "durationFontSize": {
+    "label": "Font Size",
+    "type": "number",
+    "value": 18,
+    "group": "Duration Text Config"
+  },
+  "durationFontWeight": {
+    "label": "Font Weight",
+    "type": "dropdown",
+    "value": "700",
+    "options": {
+      "100": "Thin (100)",
+      "300": "Light (300)",
+      "400": "Regular (400)",
+      "500": "Medium (500)",
+      "700": "Bold (700)",
+      "900": "Black (900)"
+    },
+    "group": "Duration Text Config"
+  },
+  "durationShadowH": {
+    "label": "Shadow Horizontal Position",
+    "type": "number",
+    "value": 0,
+    "group": "Duration Text Config"
+  },
+  "durationShadowV": {
+    "label": "Shadow Vertical Position",
+    "type": "number",
+    "value": 0,
+    "group": "Duration Text Config"
+  },
+  "durationShadowB": {
+    "label": "Shadow Blur",
+    "type": "number",
+    "value": 0,
+    "group": "Duration Text Config"
+  },
+  "durationShadowColor": {
+    "label": "Shadow Color",
+    "type": "colorpicker",
+    "value": "#000000",
+    "group": "Duration Text Config"
+  },
+  
+  "previousAlignment": {
+    "label": "Text Alignment",
+    "type": "dropdown",
+    "value": "none",
+    "options": {
+      "none": "Left",
+      "auto": "Right"
+    },
+    "group": "Previous Text Config"
+  },
+  "previousColor": {
+    "label": "Color",
+    "type": "colorpicker",
+    "value": "#ffffff",
+    "group": "Previous Text Config"
+  },
+  "previousFontName": {
+    "label": "Font Name",
+    "type": "googleFont",
+    "value": "Roboto",
+    "group": "Previous Text Config"
+  },
+  "previousFontSize": {
+    "label": "Font Size",
+    "type": "number",
+    "value": 24,
+    "group": "Previous Text Config"
+  },
+  "previousFontWeight": {
+    "label": "Font Weight",
+    "type": "dropdown",
+    "value": "700",
+    "options": {
+      "100": "Thin (100)",
+      "300": "Light (300)",
+      "400": "Regular (400)",
+      "500": "Medium (500)",
+      "700": "Bold (700)",
+      "900": "Black (900)"
+    },
+    "group": "Previous Text Config"
+  },
+  "previousTextTransform": {
+    "label": "Text Transform",
+    "type": "dropdown",
+    "value": "none",
+    "options": {
+      "capitalize": "Capitalize",
+      "lowercase": "lowercase",
+      "none": "None",
+      "uppercase": "UPPERCASE"
+    },
+    "group": "Previous Text Config"
+  },
+  "previousShadowH": {
+    "label": "Shadow Horizontal Position",
+    "type": "number",
+    "value": 0,
+    "group": "Previous Text Config"
+  },
+  "previousShadowV": {
+    "label": "Shadow Vertical Position",
+    "type": "number",
+    "value": 0,
+    "group": "Previous Text Config"
+  },
+  "previousShadowB": {
+    "label": "Shadow Blur",
+    "type": "number",
+    "value": 0,
+    "group": "Previous Text Config"
+  },
+  "previousShadowColor": {
+    "label": "Shadow Color",
+    "type": "colorpicker",
+    "value": "#000000",
+    "group": "Previous Text Config"
+  },
+
+  "currentBGColor": {
+    "label": "Current Background Color",
+    "type": "colorpicker",
+    "value": "#121212",
+    "group": "Background Color Config"
+  },
+  "coverBGColor": {
+    "label": "Cover Background Color",
+    "type": "colorpicker",
+    "value": "#121212",
+    "group": "Background Color Config"
+  },
+  "songBGColor": {
+    "label": "Song Inner Shadow Color",
+    "type": "colorpicker",
+    "value": "#121212",
+    "group": "Background Color Config"
+  },
+  "titleBGColor": {
+    "label": "Title Background Color",
+    "type": "colorpicker",
+    "value": "#121212",
+    "group": "Background Color Config"
+  },
+  "artistsBGColor": {
+    "label": "Artists Background Color",
+    "type": "colorpicker",
+    "value": "#121212",
+    "group": "Background Color Config"
+  },
+  "albumBGColor": {
+    "label": "Album Background Color",
+    "type": "colorpicker",
+    "value": "#121212",
+    "group": "Background Color Config"
+  },
+  "durationBGColor": {
+    "label": "Duration Background Color",
+    "type": "colorpicker",
+    "value": "#121212",
+    "group": "Background Color Config"
+  },
+  "previousBGColor": {
+    "label": "Duration Background Color",
+    "type": "colorpicker",
+    "value": "#121212",
+    "group": "Background Color Config"
+  },
+
+  "animateIn": {
+    "label": "Animation In",
+    "type": "dropdown",
+    "value": "slideInUp",
+    "options": {
+      "none": "None",
+      "fadeIn": "Fade In",
+      "slideInUp": "Slide In Up",
+      "slideInDown": "Slide In Down",
+      "slideInRight": "Slide In Right",
+      "slideInLeft": "Slide In Left"
+    },
+    "group": "Animation Config"
+  },
+  "animateInDuration": {
+    "label": "Animation In Duration",
+    "type": "number",
+    "value": 0.5,
+    "group": "Animation Config"
+  },
+  "animateOut": {
+    "label": "Animation Out",
+    "type": "dropdown",
+    "value": "slideOutUp",
+    "options": {
+      "none": "None",
+      "fadeOut": "Fade Out",
+      "slideOutUp": "Slide Out Up",
+      "slideOutDown": "Slide Out Down",
+      "slideOutRight": "Slide Out Right",
+      "slideOutLeft": "Slide Out Left"
+    },
+    "group": "Animation Config"
+  },
+  "animateOutDuration": {
+    "label": "Animation Out Duration",
+    "type": "number",
+    "value": 0.5,
+    "group": "Animation Config"
+  },
+  "animateQueueEnabled": {
+    "label": "Queue Animations",
+    "type": "dropdown",
+    "value": "slideOutUp",
+    "options": {
+      "1": "Yes",
+      "0": "No"
+    },
+    "group": "Animation Config"
+  },
+  "animateHoldDuration": {
+    "label": "Animation Hold Duration",
+    "type": "number",
+    "value": 4.5,
+    "group": "Animation Config"
+  }
 }

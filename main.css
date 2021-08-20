@@ -1,0 +1,401 @@
+body {
+    background-color: rgba(0, 0, 0, 0);
+    margin: 0px auto;
+    overflow: hidden;
+}
+
+* {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+#container {
+    display: flex;
+    flex-direction: column;
+    height: 240px;
+    width: 1000px;
+  
+    opacity : 0;
+}
+
+#div-previous-row {
+    height: 40px;
+    width: 1000px;
+    background-color: {{previousBGColor}};
+    align-items: center;
+    overflow: hidden;
+    padding-left: 2%;
+    padding-right: 2%;
+    
+    display: {{displayPrevious}};
+    order: {{previousLocation}};
+}
+
+/* #div-previous-row>div {
+    overflow: hidden;
+    padding-left: 1%;
+    padding-right: 1%;
+} */
+
+#div-previous {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#div-previous-prefix {
+    order: 0;
+}
+
+#div-previous {
+    order: 1;
+}
+
+#previous,
+#div-previous-prefix {
+    /* color: #fff;
+    font-size: 24px;
+    font-weight: bold;
+    font-family: "Roboto", sans-serif; */
+    
+    text-transform: {{previousTextTransform}};
+	margin-left: {{previousAlignment}};
+	color: {{previousColor}};
+	font-family: '{{previousFontName}}', sans-serif;
+	font-size: {{previousFontSize}}px;
+	font-weight: {{previousFontWeight}};
+	text-shadow: {{previousShadowH}}px {{previousShadowV}}px {{previousShadowB}}px {{previousShadowColor}};
+}
+
+#div-current {
+    height: 200px;
+    display: flex;
+    z-index: -2;
+    order: 1;
+    overflow: hidden;
+    border-radius: 0px;
+
+    background-color: {{currentBGColor}};
+}
+
+#div-cover {
+    width: 20%;
+    z-index: 100;
+    background-color: {{coverBGColor}};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    order: {{coverLocation}};
+}
+
+#cover {
+    height: 100%;
+    border-radius: 0px;
+}
+
+#div-song {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    box-shadow: inset -19px 0px 3px -3px {{songBGColor}}, inset 19px 0px 3px -3px {{songBGColor}};
+}
+
+#div-song>div {
+    padding-left: 2%;
+    padding-right: 2%;
+    overflow: hidden;
+    z-index: -2;
+}
+
+#div-title {
+    height: 36%;
+    display: flex;
+    align-items: center;
+    
+    background-color: {{titleBGColor}};
+    order: {{titleLocation}};
+}
+
+#div-artist {
+    height: 26%;
+    display: flex;
+    align-items: center;
+    
+    background-color: {{artistsBGColor}};
+    order: {{artistsLocation}};
+}
+
+#div-album {
+    height: 20%;
+    display: flex;
+    align-items: center;
+    
+    background-color: {{albumBGColor}};
+    order: {{albumLocation}};
+}
+
+#div-duration {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 2%;
+    margin-right: 2%;
+    padding-left: 0% !important;
+    padding-right: 0% !important;
+    height: 18%;
+    width: 96%;
+    
+    background-color: {{durationBGColor}};
+    order: {{progressLocation}};
+}
+
+#div-duration-row {
+    display: flex;
+    flex-direction: {{progressTotalLocation}};
+    justify-content: space-between;
+    width: 100%;
+
+    order: {{durationLocation}};
+}
+
+#div-duration-current {
+    align-self: start;
+}
+
+#div-duration-total {
+    align-self: end;
+}
+
+#div-progress {
+    height: 16%;
+    width: 100%;
+    transform: scaleX({{progressDirection}});
+    background-color: {{progressTotalBGColor}} !important;
+    order: 1;
+}
+
+#div-bar {
+    height: 100%;
+    background-color: {{progressCurrentColor}};
+}
+
+
+span {
+    white-space: nowrap;
+}
+
+#title,
+#title-prefix {
+    text-transform: {{titleTextTransform}};
+	margin-left: {{titleAlignment}};
+	color: {{titleColor}};
+	font-family: '{{titleFontName}}', sans-serif;
+	font-size: {{titleFontSize}}px;
+	font-weight: {{titleFontWeight}};
+	text-shadow: {{titleShadowH}}px {{titleShadowV}}px {{titleShadowB}}px {{titleShadowColor}};
+}
+
+#artist,
+#artist-prefix {
+    
+text-transform: {{artistsTextTransform}};
+margin-left: {{artistsAlignment}};
+color: {{artistsColor}};
+font-family: '{{artistsFontName}}', sans-serif;
+font-size: {{artistsFontSize}}px;
+font-weight: {{artistsFontWeight}};
+text-shadow: {{artistsShadowH}}px {{artistsShadowV}}px {{artistsShadowB}}px {{artistsShadowColor}};
+}
+
+#album,
+#album-prefix {
+    /* color: #7b7ba7;
+    font-size: 32px;
+    font-weight: bold;
+    font-family: "Roboto", sans-serif; */
+    text-transform: {{albumTextTransform}};
+	margin-left: {{albumAlignment}};
+	color: {{albumColor}};
+	font-family: '{{albumFontName}}', sans-serif;
+	font-size: {{albumFontSize}}px;
+	font-weight: {{albumFontWeight}};
+	text-shadow: {{albumShadowH}}px {{albumShadowV}}px {{albumShadowB}}px {{albumShadowColor}};
+
+}
+
+#duration-current,
+#duration-total {
+    /* color: #707070;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: "Roboto", sans-serif; */
+    
+    text-transform: {{durationTextTransform}};
+	margin-left: {{durationAlignment}};
+	color: {{durationColor}};
+	font-family: '{{durationFontName}}', sans-serif;
+	font-size: {{durationFontSize}}px;
+	font-weight: {{durationFontWeight}};
+	text-shadow: {{durationShadowH}}px {{durationShadowV}}px {{durationShadowB}}px {{durationShadowColor}};
+}
+
+
+.scrolling {
+    animation: slide 20s linear infinite;
+    animation-delay: -10s;
+}
+
+@keyframes slide {
+    0% {
+        transform: translateX(100%);
+    }
+
+    50% {
+        transform: translateX(0%);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+/* fadeIn, slideInUp, slideInDown, slideInRight, slideInLeft */
+.animateIn {
+    animation: {{animateIn}} {{animateInDuration}}s;
+}
+
+/* fadeOut, slideOutDown, slideOutUp, slideOutLeft, slideOutRight */
+.animateOut {
+    animation: {{animateOut}} {{animateOutDuration}}s;
+}
+
+@keyframes hold {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes slideInUp {
+    0% {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: none;
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutDown {
+    0% {
+        transform: none;
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+}
+
+@keyframes slideInDown {
+    0% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: none;
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutUp {
+    0% {
+        transform: none;
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+}
+
+@keyframes slideInRight {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: none;
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutLeft {
+    0% {
+        transform: none;
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+}
+
+@keyframes slideInLeft {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: none;
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutRight {
+    0% {
+        transform: none;
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+.animateQueue {
+    animation: none;
+}
