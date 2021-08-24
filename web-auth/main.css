@@ -33,10 +33,10 @@ h1 {
 .container {
   position: relative;
   max-width: 40rem;
-  margin: 5rem auto;
+  margin: auto;
   background: #fff;
   width: 100%;
-  padding: 3rem 5rem 0;
+  padding: 2rem 5rem 1rem;
   border-radius: 1px;
 }
 .container::before {
