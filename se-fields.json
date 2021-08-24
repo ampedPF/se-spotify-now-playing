@@ -46,6 +46,12 @@
     "value": 500,
     "group": "Widget's Configuration"
   },
+  "borderRadius": {
+    "type": "number",
+    "label": "Borders | 0 : right angles; 10+: round corners",
+    "value": 0,
+    "group": "Widget's Configuration"
+  },
   "coverLocation": {
     "type": "dropdown",
     "label": "Cover Location",

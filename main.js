@@ -7,6 +7,7 @@ const actions = {
 
 var config = "";
 var chatCommandsEnabled = false;
+let displayPrevious = true;
 let messageCurrent, messagePrevious, messageError;
 let client_id, client_secret, access_token, refresh_token;
 let account_id, jwt_token;
@@ -68,8 +69,8 @@ function fetchInfo() {
               el_container.classList.add("animateQueue");
             } else {
               el_container.classList.add("animateIn");
-              el_container.style.opacity = 1;
             }
+            el_container.style.opacity = 1;
             widgetVisible = true;
             // console.log('data', data);
             let temp_artists = parseArtists(data.item.artists);
@@ -110,7 +111,7 @@ function updateInfo() {
   animateText(el_album, track.album.name, maxLength.album);
   el_cover.src = track.album.cover + "?t=" + track.name + track.artists;
   el_duration.innerText = msToTime(track.duration_ms);
-  if (previous.name.length > 1 && previous.artists.length > 1) {
+  if (!displayPrevious && previous.name.length > 1 && previous.artists.length > 1) {
     animateText(el_previous, previous.name + " - " + previous.artists, maxLength.previous);
   }
 }
@@ -225,6 +226,10 @@ function main() {
   el_duration = document.getElementById("duration-total");
   el_previous = document.getElementById("previous");
 
+  
+  if(!displayPrevious) {
+    el_container.style.height = "200px";
+  }
 
 
   $.getScript('https://ampedpf.github.io/spotify-now-playing/utils.js', function () {
@@ -276,10 +281,11 @@ window.addEventListener('onWidgetLoad', function (obj) {
     
     rule.style.animation =  animateIn + " " + animateInDuration + "s, hold " + animateHoldDuration + "s " + animateInDuration + "s, " + animateOut + " " + animateOutDuration + "s " + (animateHoldDuration + animateInDuration) + "s";
     // console.log("animateQueue :", animateQueue);
-
+    
     // stylesheet.insertRule(animateQueue, 0);
     console.log("stylesheet :", stylesheet);
   }
+  displayPrevious = parseInt(fieldData.displayPrevious);
   // console.log("chatCommandsEnabled :", chatCommandsEnabled);
   // console.log("messagePrevious :", messagePrevious);
   main();
