@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="./main.js" crossorigin="anonymous"></script>
+    <title>web-auth</title>
+</head>
+<body>
+    <!-- <div><p>client_id</p><textarea name="client-id" id="client-id" cols="60" rows="1"></textarea>
+    <button onclick="copyToClipboard('client-id')">Copy</button></div>
+    <div><p>client_secret</p><textarea name="client-secret" id="client-secret" cols="60" rows="1"></textarea>
+    <button onclick="copyToClipboard('client-secret')">Copy</button></div>
+    <button id="submit" onclick="login()">Submit</button>
+    <button id="clearcache" onclick="clearCache()">Clear Cache</button>
+    <div><p>access_token</p><textarea name="access-token" id="access-token" cols="60" rows="5" readonly></textarea>
+    <button onclick="copyToClipboard('access-token')">Copy</button></div>
+    <div><p>refresh_token</p><textarea name="refresh-token" id="refresh-token" cols="60" rows="5" readonly></textarea>
+    <button onclick="copyToClipboard('refresh-token')">Copy</button></div> -->
+
+    
+<div class="container">
+    <form>
+        <h1>Spotify Web Auth</h1>
+        <div class="form-group">
+            <div class="flex-group">
+                <input type="text" id="client-id" required="required"/>
+                <label for="input" class="control-label">client_id</label>
+                <button onclick="copyToClipboard('client-id')" type="button" class="button">
+                    <span class="material-icons">content_copy</span>
+                </button>
+            </div>
+            <i class="bar"></i>
+        </div>
+        <div class="form-group">
+            <div class="flex-group">
+                <input type="text" id="client-secret" required="required"/>
+                <label for="input" class="control-label">client_secret</label>
+                <button onclick="copyToClipboard('client-secret')" type="button" class="button">
+                    <span class="material-icons">content_copy</span>
+                </button>
+            </div>
+            <i class="bar"></i>
+        </div>
+        <div class="form-group">
+            <div class="flex-group">
+                <input type="text" id="scope" required="required"/>
+                <label for="input" class="control-label">scopes</label>
+                <button onclick="toggleModal()" type="button" class="button">
+                    <span class="material-icons">format_list_bulleted</span>
+                </button>
+            </div>
+            <i class="bar"></i>
+        </div>
+    </form>
+    <div class="button-container">
+        <button onclick="login()" type="button" class="button">
+            <span class="material-icons">login</span>
+        </button>
+        <button onclick="clearCache()" type="button" class="button">
+            <span class="material-icons">cached</span>
+        </button>
+    </div>
+    <div><span id="error"></span></div>
+    <form>
+        <div class="form-group">
+            <div class="flex-group">
+                <textarea id="access-token" readonly></textarea>
+                <label for="textarea" class="control-label">access_token</label>
+                <button onclick="copyToClipboard('access-token')" type="button" class="button">
+                    <span class="material-icons">content_copy</span>
+                </button>
+            </div>
+            <i class="bar"></i>
+        </div>
+        <div class="form-group">
+            <div class="flex-group">
+                <textarea id="refresh-token" readonly></textarea>
+                <label for="textarea" class="control-label">refresh_token</label>
+                <button onclick="copyToClipboard('refresh-token')" type="button" class="button">
+                    <span class="material-icons">content_copy</span>
+                </button>
+            </div>
+            <i class="bar"></i>
+        </div>
+    </form>
+  </div>
+
+  <input class="modal-state" id="modal-1" type="checkbox" />
+  <div class="modal">
+    <label class="modal__bg" for="modal-1"></label>
+    <div class="modal__inner">
+        <label class="modal__close" for="modal-1"></label>
+        <div id="scope-list">
+            <div id="scope-left">
+                <fieldset class="checkboxgroup">
+                    <p>Images</p>
+                    <label><input id="ugc-image-upload" class="scope-cb" type="checkbox">ugc-image-upload</label>
+                </fieldset>
+                <fieldset class="checkboxgroup">
+                    <p>Playlists</p>
+                    <label><input id="playlist-modify-private" class="scope-cb" type="checkbox">playlist-modify-private</label>
+                    <label><input id="playlist-read-private" class="scope-cb" type="checkbox">playlist-read-private</label>
+                    <label><input id="playlist-modify-public" class="scope-cb" type="checkbox">playlist-modify-public</label>
+                    <label><input id="playlist-read-collaborative" class="scope-cb" type="checkbox">playlist-read-collaborative</label>
+                </fieldset>
+                <fieldset class="checkboxgroup">
+                    <p>Users</p>
+                    <label><input id="user-read-private" class="scope-cb" type="checkbox">user-read-private</label>
+                    <label><input id="user-read-email" class="scope-cb" type="checkbox">user-read-email</label>
+                </fieldset>
+                <fieldset class="checkboxgroup">
+                    <p>Spotify Connect</p>
+                    <label><input id="user-read-playback-state" class="scope-cb" type="checkbox">user-read-playback-state</label>
+                    <label><input id="user-modify-playback-state" class="scope-cb" type="checkbox">user-modify-playback-state</label>
+                    <label><input id="user-read-currently-playing" class="scope-cb" type="checkbox">user-read-currently-playing</label>
+                </fieldset>
+            </div>
+            <div id="scope-right">
+                <fieldset class="checkboxgroup">
+                    <p>Library</p>
+                    <label><input id="user-library-modify" class="scope-cb" type="checkbox">user-library-modify</label>
+                    <label><input id="user-library-read" class="scope-cb" type="checkbox">user-library-read</label>
+                </fieldset>
+                <fieldset class="checkboxgroup">
+                    <p>Listening History</p>
+                    <label><input id="user-read-playback-position" class="scope-cb" type="checkbox">user-read-playback-position</label>
+                    <label><input id="user-read-recently-played" class="scope-cb" type="checkbox">user-read-recently-played</label>
+                    <label><input id="user-top-read" class="scope-cb" type="checkbox">user-top-read</label>
+                </fieldset>
+                <fieldset class="checkboxgroup">
+                    <p>Playback</p>
+                    <label><input id="app-remote-control" class="scope-cb" type="checkbox">app-remote-control</label>
+                    <label><input id="streaming" class="scope-cb" type="checkbox">streaming</label>
+                </fieldset>
+                <fieldset class="checkboxgroup">
+                    <p>Follow</p>
+                    <label><input id="user-follow-modify" class="scope-cb" type="checkbox">user-follow-modify</label>
+                    <label><input id="user-follow-read" class="scope-cb" type="checkbox">user-follow-read</label>
+                </fieldset>
+            </div>
+        </div>
+        <div id="scope-buttons">
+            <button onclick="uncheckAll()" type="button" class="button button-error">
+                <span class="material-icons">clear</span>
+            </button>
+            <button onclick="listCheckboxes()" type="button" class="button">
+                <span class="material-icons">done</span>
+            </button>
+        </div>
+    </div>
+  </div>
+</body>
+</html>
