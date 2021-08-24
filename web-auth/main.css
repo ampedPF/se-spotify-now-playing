@@ -383,6 +383,7 @@ fieldset {
   color: #fff;
   position: relative;
   z-index: 1;
+  vertical-align: middle;
 }
 .button::before {
   content: '';

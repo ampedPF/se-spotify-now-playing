@@ -9,7 +9,6 @@ function login() {
     client_secret = el_clientSecret.value;
     localStorage.setItem("client_secret", client_secret);
 
-    //var scope = 'user-read-currently-playing user-read-playback-position';
     scope = el_scope.value;
     localStorage.setItem("scope", scope);
     window.location.href = 'https://accounts.spotify.com/authorize?response_type=code&client_id=' + client_id + '&scope=' + scope.replace(' ', '%20') + '&redirect_uri=' + redirect_uri;
