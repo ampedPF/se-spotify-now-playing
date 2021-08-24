@@ -9,7 +9,7 @@ A StreamElements' custom widget to display currently playing track information.
 user-read-playback-position user-read-recently-played
 ```
 
-3. Login to [StreamElements](https://streamelements.com/dashboard/account/channels) and retrieve you `Account ID` and the `JWT Token` by clicking on the "Show secrets" toggle on the right side.
+3. Login to [StreamElements](https://streamelements.com/dashboard/account/channels) and retrieve your `Account ID` and the `JWT Token` by clicking on the "Show secrets" toggle on the right side.
 
 ## Setting up the custom widget
 1. Create an overlay from StreamElements' [Dashboard](https://streamelements.com/dashboard/overlays).
