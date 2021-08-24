@@ -1,6 +1,6 @@
 var redirect_uri = "https://ampedpf.github.io/spotify-now-playing/web-auth/";
 var localStorage = window.localStorage;
-let client_id, client_secret, code, scope;
+let client_id = "", client_secret = "", code = "", scope = "";
 let el_clientId, el_clientSecret, el_scope, el_error, el_accessToken, el_refreshToken;
 
 function login() {
