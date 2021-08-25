@@ -80,8 +80,8 @@
 
   "updateRefreshRate": {
     "type": "number",
-    "label": "Update refresh rate (in ms)",
-    "value": 500,
+    "label": "Update rate in ms (500 minimum)",
+    "value": 1000,
     "group": "Widget's Configuration"
   },
   "borderRadius": {

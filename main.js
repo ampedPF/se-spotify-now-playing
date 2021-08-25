@@ -231,7 +231,6 @@ function main() {
     el_container.style.height = "200px";
   }
 
-
   $.getScript('https://ampedpf.github.io/spotify-now-playing/utils.js', function () {
     console.log("utils.js loaded successfully.");
   }).fail(function () {
@@ -260,7 +259,7 @@ window.addEventListener('onWidgetLoad', function (obj) {
   messageCurrent = fieldData.chatTextCurrent;
   messagePrevious = fieldData.chatTextPrevious;
   messageError = fieldData.chatTextError;
-  updateRefreshRate = fieldData.updateRefreshRate;
+  updateRefreshRate = fieldData.updateRefreshRate < 500 ? 500 : fieldData.updateRefreshRate;
   maxLength.title = fieldData.maxLength_title;
   maxLength.artists = fieldData.maxLength_artists;
   maxLength.album = fieldData.maxLength_album;
@@ -281,7 +280,7 @@ window.addEventListener('onWidgetLoad', function (obj) {
     
     rule.style.animation =  animateIn + " " + animateInDuration + "s, hold " + animateHoldDuration + "s " + animateInDuration + "s, " + animateOut + " " + animateOutDuration + "s " + (animateHoldDuration + animateInDuration) + "s";
   }
-  displayPrevious = true ? fieldData.displayPrevious == "flex" : false;
+  displayPrevious = fieldData.displayPrevious == "flex" ? true : false;
 
   main();
 });
