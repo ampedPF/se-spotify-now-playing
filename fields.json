@@ -200,6 +200,18 @@
     "group": "Scrolling"
   },
 
+  "coverSize": {
+    "label": "Cover Size (%)",
+    "type": "number",
+    "value": 100,
+    "group": "Cover"
+  },
+  "coverCorner": {
+    "label": "Cover Corner",
+    "type": "number",
+    "value": 0,
+    "group": "Cover"
+  },
     
   "titleAlignment": {
     "label": "Text Alignment",

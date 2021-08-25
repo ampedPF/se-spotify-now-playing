@@ -111,7 +111,7 @@ function updateInfo() {
   animateText(el_album, track.album.name, maxLength.album);
   el_cover.src = track.album.cover + "?t=" + track.name + track.artists;
   el_duration.innerText = msToTime(track.duration_ms);
-  if (!displayPrevious && previous.name.length > 1 && previous.artists.length > 1) {
+  if (displayPrevious && previous.name.length > 1 && previous.artists.length > 1) {
     animateText(el_previous, previous.name + " - " + previous.artists, maxLength.previous);
   }
 }
@@ -285,7 +285,7 @@ window.addEventListener('onWidgetLoad', function (obj) {
     // stylesheet.insertRule(animateQueue, 0);
     console.log("stylesheet :", stylesheet);
   }
-  displayPrevious = parseInt(fieldData.displayPrevious);
+  displayPrevious = true ? fieldData.displayPrevious == "flex" : false;
   // console.log("chatCommandsEnabled :", chatCommandsEnabled);
   // console.log("messagePrevious :", messagePrevious);
   main();
