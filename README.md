@@ -38,3 +38,6 @@ user-read-playback-position user-read-recently-played
 11. Start playing a song on spotify and the widget should appear.
 
 12. Customize the widget using the other panels on the left side.
+
+## Credits
+[JMPerez's spotify-web-api-js](https://github.com/JMPerez/spotify-web-api-js)

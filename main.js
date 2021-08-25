@@ -236,6 +236,7 @@ function main() {
   }).fail(function () {
     console.log("An error has occurred while loading utils.js file.");
   }).then(function () {
+    // Source: https://github.com/JMPerez/spotify-web-api-js
     $.getScript("https://ampedpf.github.io/spotify-now-playing/spotify-web-api.js", function() {
       console.log("spotify-web-api.js loaded successfully.");
       spotifyApi = new SpotifyWebApi();
