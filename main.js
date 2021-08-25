@@ -1,4 +1,4 @@
-console.log("start of main.js");
+//console.log("start of main.js");
 
 const actions = {
   current: "current",
@@ -84,7 +84,7 @@ function fetchInfo() {
               track.name = data.item.name;
               track.url = data.item.external_urls.spotify;
               track.duration_ms = data.item.duration_ms;
-              console.log(track);
+              //console.log(track);
               updateInfo();
               el_container.classList.remove("animateQueue");
             }
@@ -179,7 +179,7 @@ function refreshToken() {
 }
 
 async function sendTwitchMessage(which, track) {
-  console.log("sendTwitchMessage");
+  //console.log("sendTwitchMessage");
   let message = "";
   if (track.name.length > 0 && track.artists.length > 0 && track.album.name.length > 0 && track.url.length > 0) {
     if (which == actions.current) {
@@ -196,7 +196,7 @@ async function sendTwitchMessage(which, track) {
     message = messageError;
   }
   var data = { message: message };
-  console.log("message :", data);
+  //console.log("message :", data);
 
   await fetch("https://api.streamelements.com/kappa/v2/bot/" + account_id + "/say", {
     method: 'POST',
@@ -208,7 +208,7 @@ async function sendTwitchMessage(which, track) {
   })
   .then(response => response.json()) 
   .then(result => { 
-    console.log(result)
+    //console.log(result)
   })
   .catch(err => {
     console.log(err)
@@ -249,7 +249,7 @@ function main() {
 
 /* Loading from streamelements.com */
 window.addEventListener('onWidgetLoad', function (obj) {
-  console.log("onWidgetLoad");
+  //console.log("onWidgetLoad");
   const fieldData = obj.detail.fieldData;
   client_id = fieldData.client_id;
   client_secret = fieldData.client_secret;
@@ -280,14 +280,9 @@ window.addEventListener('onWidgetLoad', function (obj) {
     let rule = stylesheet.cssRules[stylesheet.cssRules.length-1];
     
     rule.style.animation =  animateIn + " " + animateInDuration + "s, hold " + animateHoldDuration + "s " + animateInDuration + "s, " + animateOut + " " + animateOutDuration + "s " + (animateHoldDuration + animateInDuration) + "s";
-    // console.log("animateQueue :", animateQueue);
-    
-    // stylesheet.insertRule(animateQueue, 0);
-    console.log("stylesheet :", stylesheet);
   }
   displayPrevious = true ? fieldData.displayPrevious == "flex" : false;
-  // console.log("chatCommandsEnabled :", chatCommandsEnabled);
-  // console.log("messagePrevious :", messagePrevious);
+
   main();
 });
 
@@ -303,14 +298,14 @@ window.addEventListener('onEventReceived', function (obj) {
       if (data["badges"][0]["type"]) {
         badge = data["badges"][0]["type"];
       }
-      console.log(badge);
+      //console.log(badge);
       // console.log('{{chatCommand}}');
       if (badge === 'moderator' || badge === 'broadcaster') {
         if (command == "{{chatCommandCurrent}}") {
-          console.log(command);
+          //console.log(command);
           sendTwitchMessage(actions.current, track);
         } else if (command == "{{chatCommandPrevious}}") {
-          console.log(command);
+          //console.log(command);
           sendTwitchMessage(actions.previous, previous);
         }
       }
@@ -319,7 +314,7 @@ window.addEventListener('onEventReceived', function (obj) {
 
 /* */
 
-/* Loading from local env */
+/* Loading from local env *
 $(document).ready(function() {
   $.getJSON('./config.json', function (response) {
     // config = response;
@@ -334,4 +329,4 @@ $(document).ready(function() {
     console.log("An error has occurred while loading config.json file.");
   }).then(main());
 });
-/* */
+* */
