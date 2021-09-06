@@ -33,12 +33,7 @@ body {
     order: {{previousLocation}};
 }
 
-#previous {
-    /* color: #fff;
-    font-size: 24px;
-    font-weight: bold;
-    font-family: "Roboto", sans-serif; */
-    
+#previous {    
     text-transform: {{previousTextTransform}};
 	margin-left: {{previousAlignment}};
 	color: {{previousColor}};
@@ -168,8 +163,7 @@ span {
     white-space: nowrap;
 }
 
-#title,
-#title-prefix {
+#title {
     text-transform: {{titleTextTransform}};
 	margin-left: {{titleAlignment}};
 	color: {{titleColor}};
@@ -179,8 +173,7 @@ span {
 	text-shadow: {{titleShadowH}}px {{titleShadowV}}px {{titleShadowB}}px {{titleShadowColor}};
 }
 
-#artist,
-#artist-prefix {
+#artist {
     
 text-transform: {{artistsTextTransform}};
 margin-left: {{artistsAlignment}};
@@ -191,12 +184,7 @@ font-weight: {{artistsFontWeight}};
 text-shadow: {{artistsShadowH}}px {{artistsShadowV}}px {{artistsShadowB}}px {{artistsShadowColor}};
 }
 
-#album,
-#album-prefix {
-    /* color: #7b7ba7;
-    font-size: 32px;
-    font-weight: bold;
-    font-family: "Roboto", sans-serif; */
+#album {
     text-transform: {{albumTextTransform}};
 	margin-left: {{albumAlignment}};
 	color: {{albumColor}};
@@ -209,10 +197,6 @@ text-shadow: {{artistsShadowH}}px {{artistsShadowV}}px {{artistsShadowB}}px {{ar
 
 #duration-current,
 #duration-total {
-    /* color: #707070;
-    font-size: 18px;
-    font-weight: bold;
-    font-family: "Roboto", sans-serif; */
     
     text-transform: {{durationTextTransform}};
 	margin-left: {{durationAlignment}};
