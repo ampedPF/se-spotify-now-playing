@@ -58,7 +58,7 @@ body {
     width: 20%;
     z-index: 100;
     background-color: {{currentBGColor}};
-    display: flex;
+    display: {{displayCover}};
     align-items: center;
     justify-content: center;
 

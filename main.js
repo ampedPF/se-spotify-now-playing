@@ -5,6 +5,7 @@ const actions = {
 
 var chatCommandsEnabled = false;
 let displayPrevious = true;
+let displayCover = true;
 let messageCurrent, messagePrevious, messageError;
 let client_id, client_secret, access_token, refresh_token;
 let account_id, jwt_token;
@@ -36,7 +37,7 @@ var spotifyApi;
 var updateRefreshRate;
 var scrollingDelay;
 
-let el_container, el_artists, el_album, el_track, el_previous, el_cover, el_progress_text, el_progress_bar, el_duration;
+let el_container, el_cover, el_song, el_artists, el_album, el_track, el_previous, el_progress_text, el_progress_bar, el_duration;
 
 function refreshInfo() {
   now = Date.now();
@@ -232,6 +233,7 @@ async function sendTwitchMessage(which, track) {
 /* Main process */
 function main() {
   el_container = document.getElementById("container");
+  el_song = document.getElementById("div-song");
   el_artists = document.getElementById("artist");
   el_album = document.getElementById("album");
   el_track = document.getElementById("title");
@@ -244,6 +246,9 @@ function main() {
 
   if (!displayPrevious) {
     el_container.style.height = "200px";
+  }
+  if (!displayCover) {
+    el_song.style.width = "100%";
   }
 
   refreshInfo();
@@ -278,6 +283,7 @@ window.addEventListener('onWidgetLoad', function (obj) {
     rule.style.animation = animateIn + " " + animateInDuration + "s, hold " + animateHoldDuration + "s " + animateInDuration + "s, " + animateOut + " " + animateOutDuration + "s " + (animateHoldDuration + animateInDuration) + "s";
   }
   displayPrevious = fieldData.displayPrevious == "flex" ? true : false;
+  displayCover = fieldData.displayCover == "flex" ? true : false;
 
   main();
 });

@@ -84,16 +84,6 @@
     "value": 0,
     "group": "Widget's Configuration"
   },
-  "coverLocation": {
-    "type": "dropdown",
-    "label": "Cover Location",
-    "value": "0",
-    "options": {
-      "0": "Left",
-      "2": "Right"
-    },
-    "group": "Widget's Configuration"
-  },
   "titleLocation": {
     "type": "dropdown",
     "label": "Track Title Location",
@@ -170,6 +160,26 @@
     "group": "Scrolling"
   },
 
+  "displayCover": {
+    "label": "Display Cover",
+    "type": "dropdown",
+    "value": "flex",
+    "options": {
+      "flex": "Yes",
+      "none": "No"
+    },
+    "group": "Cover"
+  },
+  "coverLocation": {
+    "type": "dropdown",
+    "label": "Cover Location",
+    "value": "0",
+    "options": {
+      "0": "Left",
+      "2": "Right"
+    },
+    "group": "Cover"
+  },
   "coverSize": {
     "label": "Cover Size (%)",
     "type": "number",
