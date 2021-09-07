@@ -57,7 +57,7 @@ body {
 #div-cover {
     width: 20%;
     z-index: 100;
-    background-color: {{coverBGColor}};
+    background-color: {{currentBGColor}};
     display: flex;
     align-items: center;
     justify-content: center;
@@ -74,9 +74,9 @@ body {
     width: 80%;
     display: flex;
     flex-direction: column;
-    box-shadow: inset -19px 0px 3px -3px {{songBGColor}},
-  							   0 0 0 1px {{songBGColor}},
-  				inset  19px 0px 3px -3px {{songBGColor}};
+    box-shadow: inset -19px 0px 3px -3px {{currentBGColor}},
+  							   0 0 0 1px {{currentBGColor}},
+  				inset  19px 0px 3px -3px {{currentBGColor}};
 }
 
 #div-song>div {
@@ -91,7 +91,7 @@ body {
     display: flex;
     align-items: center;
     
-    background-color: {{titleBGColor}};
+    background-color: {{currentBGColor}};
     order: {{titleLocation}};
 }
 
@@ -100,7 +100,7 @@ body {
     display: flex;
     align-items: center;
     
-    background-color: {{artistsBGColor}};
+    background-color: {{currentBGColor}};
     order: {{artistsLocation}};
 }
 
@@ -109,7 +109,7 @@ body {
     display: flex;
     align-items: center;
     
-    background-color: {{albumBGColor}};
+    background-color: {{currentBGColor}};
     order: {{albumLocation}};
 }
 
@@ -124,7 +124,7 @@ body {
     height: 18%;
     width: 96%;
     
-    background-color: {{durationBGColor}};
+    background-color: {{currentBGColor}};
     order: {{progressLocation}};
 }
 

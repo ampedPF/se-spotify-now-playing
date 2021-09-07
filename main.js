@@ -35,12 +35,6 @@ var previous = {
 var spotifyApi;
 var updateRefreshRate;
 var scrollingDelay;
-var maxLength = {
-  title: 0,
-  artists: 0,
-  album: 0,
-  previous: 0
-}
 
 let el_container, el_artists, el_album, el_track, el_previous, el_cover, el_progress_text, el_progress_bar, el_duration;
 
@@ -53,72 +47,93 @@ function refreshInfo() {
   }
 }
 
+/* Fetching info from Spotify API */
 function fetchInfo() {
-  spotifyApi.setAccessToken(access_token);
-  spotifyApi.getMyCurrentPlayingTrack()
-    .then(function (data) {
-      if (data) {
-        if (data.is_playing) {
-          el_container.classList.remove("animateOut");
-          if (animateQueueEnabled) {
-            el_container.classList.add("animateQueue");
-          } else {
-            el_container.classList.add("animateIn");
-          }
-          el_container.style.opacity = 1;
-          widgetVisible = true;
-          let temp_artists = parseArtists(data.item.artists);
-          if (track.artists != temp_artists ||
-            track.album.name != data.item.album.name ||
-            track.name != data.item.name) {
-            previous = {
-              ...track
-            };
-            track.artists = temp_artists;
-            track.album.name = data.item.album.name;
-            track.album.cover = data.item.album.images[0].url;
-            track.name = data.item.name;
-            track.url = data.item.external_urls.spotify;
-            track.duration_ms = data.item.duration_ms;
-            updateInfo();
-            el_container.classList.remove("animateQueue");
-          }
-          track.progress_ms = data.progress_ms;
-          updateProgress();
-        } else {
-          el_container.classList.remove("animateIn");
-          if (!animateQueueEnabled) {
-            el_container.classList.add("animateOut");
-          }
-          el_container.style.opacity = 0;
-          widgetVisible = false;
-        }
+  let http = new XMLHttpRequest();
+  let url = 'https://api.spotify.com/v1/me/player/currently-playing';
+  http.open('GET', url);
+
+  //Send the proper header information along with the request
+  http.setRequestHeader('Authorization', 'Bearer ' + access_token);
+  http.setRequestHeader('Content-Type', 'application/json');
+
+  http.onload = function () { //Call a function when the state changes.
+    if (http.readyState === 4) {
+      let data = null;
+      try {
+        data = http.responseText ? JSON.parse(http.responseText) : '';
+      } catch (e) {
+        console.error(e);
       }
-      setTimeout(refreshInfo(), updateRefreshRate);
-    }, function (err) {
-      console.error(err);
-    });
+
+      if (http.status == 200) {
+        process(data);
+      }
+    }
+  }
+  http.send();
+}
+
+function process(data) {
+  if (data.is_playing) {
+    el_container.classList.remove("animateOut");
+    if (animateQueueEnabled) {
+      el_container.classList.add("animateQueue");
+    } else {
+      el_container.classList.add("animateIn");
+      el_container.style.opacity = 1;
+    }
+    widgetVisible = true;
+    let temp_artists = parseArtists(data.item.artists);
+    if (track.artists != temp_artists ||
+      track.album.name != data.item.album.name ||
+      track.name != data.item.name) {
+      previous = {
+        ...track
+      };
+      track.artists = temp_artists;
+      track.album.name = data.item.album.name;
+      track.album.cover = data.item.album.images[0].url;
+      track.name = data.item.name;
+      track.url = data.item.external_urls.spotify;
+      track.duration_ms = data.item.duration_ms;
+      updateInfo();
+      el_container.classList.remove("animateQueue");
+    }
+    track.progress_ms = data.progress_ms;
+    updateProgress();
+  } else if (el_container.classList.contains("animateIn")) {
+    el_container.classList.remove("animateIn");
+    if (!animateQueueEnabled) {
+      el_container.classList.add("animateOut");
+    }
+    el_container.style.opacity = 0;
+    widgetVisible = false;
+  }
+  setTimeout(refreshInfo, updateRefreshRate);
 }
 
 function updateInfo() {
-  animateText(el_track, track.name, maxLength.title);
-  animateText(el_artists, track.artists, maxLength.artists);
-  animateText(el_album, track.album.name, maxLength.album);
+  el_track.innerText = track.name;
+  el_artists.innerText = track.artists;
+  el_album.innerText = track.album.name;
   el_cover.src = track.album.cover + "?t=" + track.name + track.artists;
   el_duration.innerText = msToTime(track.duration_ms);
   if (displayPrevious && previous.name.length > 1 && previous.artists.length > 1) {
-    animateText(el_previous, previous.name + " - " + previous.artists, maxLength.previous);
+    el_previous.innerText = previous.name + " - " + previous.artists;
   }
+  checkScrolling();
 }
 
-function animateText(elem, text, maxLength) {
-  elem.innerText = text;
-  if (text.length > maxLength) {
-    setTimeout(() => {
-      elem.classList.add("scrolling");
-    }, scrollingDelay);
-  } else {
-    elem.classList.remove("scrolling");
+function checkScrolling() {
+  for (let el of [el_track, el_artists, el_album, el_previous]) {
+    if (el.offsetWidth < el.parentNode.offsetWidth) {
+      el.classList.remove("scrolling");
+    } else {
+      setTimeout(() => {
+        el.classList.add("scrolling");
+      }, scrollingDelay);
+    }
   }
 }
 
@@ -128,7 +143,7 @@ function updateProgress() {
 }
 
 function refreshToken() {
-  console.log("refreshing token...")
+  console.log("refreshing token...");
   var http = new XMLHttpRequest();
   var url = 'https://accounts.spotify.com/api/token';
   var params = 'grant_type=refresh_token&refresh_token=' + refresh_token;
@@ -151,6 +166,29 @@ function refreshToken() {
   }
   http.send(params);
 }
+
+
+/* Sending message to Twitch chat via StreamElements bot */
+window.addEventListener('onEventReceived', function (obj) {
+  let data = obj.detail.event.data;
+
+  if (chatCommandsEnabled && obj.detail.listener == "message") {
+    var badge = '';
+    let message = data["text"].toLowerCase();
+    var command = message.split(" ")[0];
+
+    if (data["badges"][0]["type"]) {
+      badge = data["badges"][0]["type"];
+    }
+    if (badge === 'moderator' || badge === 'broadcaster') {
+      if (command == "{{chatCommandCurrent}}") {
+        sendTwitchMessage(actions.current, track);
+      } else if (command == "{{chatCommandPrevious}}") {
+        sendTwitchMessage(actions.previous, previous);
+      }
+    }
+  }
+});
 
 async function sendTwitchMessage(which, track) {
   //console.log("sendTwitchMessage");
@@ -191,29 +229,6 @@ async function sendTwitchMessage(which, track) {
     });
 }
 
-/* Sending message to Twitch chat via StreamElements bot */
-window.addEventListener('onEventReceived', function (obj) {
-  let data = obj.detail.event.data;
-
-  if (chatCommandsEnabled && obj.detail.listener == "message") {
-    var badge = '';
-    let message = data["text"].toLowerCase();
-    var command = message.split(" ")[0];
-
-    if (data["badges"][0]["type"]) {
-      badge = data["badges"][0]["type"];
-    }
-    if (badge === 'moderator' || badge === 'broadcaster') {
-      if (command == "{{chatCommandCurrent}}") {
-        sendTwitchMessage(actions.current, track);
-      } else if (command == "{{chatCommandPrevious}}") {
-        sendTwitchMessage(actions.previous, previous);
-      }
-    }
-  }
-});
-
-
 /* Main process */
 function main() {
   el_container = document.getElementById("container");
@@ -231,20 +246,7 @@ function main() {
     el_container.style.height = "200px";
   }
 
-  $.getScript('https://ampedpf.github.io/spotify-now-playing/utils.js', function () {
-    console.log("utils.js loaded successfully.");
-  }).fail(function () {
-    console.log("An error has occurred while loading utils.js file.");
-  }).then(function () {
-    // Source: https://github.com/JMPerez/spotify-web-api-js
-    $.getScript("https://ampedpf.github.io/spotify-now-playing/spotify-web-api.js", function () {
-      console.log("spotify-web-api.js loaded successfully.");
-      spotifyApi = new SpotifyWebApi();
-      refreshInfo();
-    }).fail(function () {
-      console.log("An error has occurred while loading spotify-web-api.js file.");
-    });
-  });
+  refreshInfo();
 }
 
 /* Loading from streamelements.com */
@@ -252,7 +254,6 @@ window.addEventListener('onWidgetLoad', function (obj) {
   const fieldData = obj.detail.fieldData;
   client_id = fieldData.client_id;
   client_secret = fieldData.client_secret;
-  access_token = fieldData.access_token;
   refresh_token = fieldData.refresh_token;
   account_id = fieldData.account_id;
   jwt_token = fieldData.jwt_token;
@@ -260,10 +261,6 @@ window.addEventListener('onWidgetLoad', function (obj) {
   messagePrevious = fieldData.chatTextPrevious;
   messageError = fieldData.chatTextError;
   updateRefreshRate = fieldData.updateRefreshRate < 500 ? 500 : fieldData.updateRefreshRate;
-  maxLength.title = fieldData.maxLength_title;
-  maxLength.artists = fieldData.maxLength_artists;
-  maxLength.album = fieldData.maxLength_album;
-  maxLength.previous = fieldData.maxLength_previous;
   scrollingDelay = fieldData.scrollingDelay;
   chatCommandsEnabled = parseInt(fieldData.chatCommandsEnabled);
   animateQueueEnabled = parseInt(fieldData.animateQueueEnabled);
@@ -285,7 +282,51 @@ window.addEventListener('onWidgetLoad', function (obj) {
   main();
 });
 
-/* */
+
+/* Start of utils */
+
+function utf8_to_b64(str) {
+  return window.btoa(unescape(encodeURIComponent(str)));
+}
+
+function parseArtists(artists) {
+  var str = "";
+  if (artists.length == 1) {
+    str = artists[0].name;
+  } else {
+    for (var i = 0; i < artists.length; ++i) {
+      str = str + artists[i].name
+      if (i < artists.length - 2) {
+        str = str + ", ";
+      } else if (i < artists.length - 1) {
+        str = str + " & ";
+      }
+    }
+  }
+  return str;
+}
+
+// https://stackoverflow.com/questions/19700283/how-to-convert-time-in-milliseconds-to-hours-min-sec-format-in-javascript
+function msToTime(duration) {
+  var seconds = Math.floor((duration / 1000) % 60),
+    minutes = Math.floor((duration / (1000 * 60)) % 60),
+    hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
+
+  hours = (hours < 10) ? "0" + hours : hours;
+  minutes = (minutes < 10) ? "0" + minutes : minutes;
+  seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+  let time = "";
+  if (hours > 0) {
+    time = hours + ":"
+  }
+  time = minutes + ":" + seconds;
+
+  return time;
+}
+
+/* End of utils */
+
 
 /* Loading from local env *
 $(document).ready(function() {
