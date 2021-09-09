@@ -7,7 +7,7 @@ let fieldData;
 var chatCommandsEnabled = false;
 let displayPrevious = true;
 let displayCover = true;
-let messageCurrent, messagePrevious, messageError;
+let previousPattern, messageCurrent, messagePrevious, messageError;
 let client_id, client_secret, access_token, refresh_token;
 let account_id, jwt_token;
 var expires_at = 0;
@@ -90,9 +90,7 @@ function process(data) {
     if (track.artists != temp_artists ||
       track.album.name != data.item.album.name ||
       track.name != data.item.name) {
-      previous = {
-        ...track
-      };
+      previous = JSON.parse(JSON.stringify(track));
       track.artists = temp_artists;
       track.album.name = data.item.album.name;
       track.album.cover = data.item.album.images[0].url;
@@ -121,8 +119,11 @@ function updateInfo() {
   el_album.innerText = track.album.name;
   el_cover.src = track.album.cover + "?t=" + track.name + track.artists;
   el_progressText_total.innerText = msToTime(track.duration_ms);
-  if (displayPrevious && previous.name.length > 1 && previous.artists.length > 1) {
-    el_previous.innerText = previous.name + " - " + previous.artists;
+  if (displayPrevious && previous.name.length > 1 && previous.artists.length > 1 && previous.album.name.length > 1) {
+    //el_previous.innerText = previous.name + " - " + previous.artists;
+    el_previous.innerText = previousPattern.replaceAll("\[\[track\]\]", previous.name)
+      .replaceAll('[[artists]]', previous.artists)
+      .replaceAll('[[album]]', previous.album.name);
   }
   checkScrolling();
 }
@@ -202,7 +203,7 @@ async function sendTwitchMessage(which, track) {
       message = messagePrevious;
     }
     message = message.replaceAll("\[\[track\]\]", track.name)
-      .replaceAll('[[album]]', track.album)
+      .replaceAll('[[album]]', track.album.name)
       .replaceAll('[[url]]', track.url)
       .replaceAll('[[artists]]', track.artists);
   } else {
@@ -267,6 +268,7 @@ window.addEventListener('onWidgetLoad', function (obj) {
   refresh_token = fieldData.refresh_token;
   account_id = fieldData.account_id;
   jwt_token = fieldData.jwt_token;
+  previousPattern = fieldData.previousPattern;
   messageCurrent = fieldData.chatTextCurrent;
   messagePrevious = fieldData.chatTextPrevious;
   messageError = fieldData.chatTextError;

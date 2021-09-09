@@ -74,9 +74,10 @@ body {
     width: calc(100% - {{coverWidth}}%);
     display: {{displayTrack}};
     flex-direction: column;
-    box-shadow: inset -2.375% 0px 0.375% -0.375% {{currentBGColor}},
-  							   0 0 0 0.125% {{currentBGColor}},
-  				inset  2.375% 0px 0.375% -0.375% {{currentBGColor}};
+    justify-content: space-around;
+    box-shadow: inset -19px 0px 3px -3px {{currentBGColor}},
+  							   0 0 0 1px {{currentBGColor}},
+  				inset  19px 0px 3px -3px {{currentBGColor}};
 }
 
 #div-song>div {

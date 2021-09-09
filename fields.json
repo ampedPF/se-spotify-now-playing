@@ -608,6 +608,12 @@
     },
     "group": "Previous"
   },
+  "previousPattern": {
+    "label": "Previous Pattern [[track]] / [[album]] / [[artists]] / [[url]]",
+    "type": "text",
+    "value": "[[track]] - [[artists]] [[[album]]]",
+    "group": "Previous"
+  },
   "previousAlignment": {
     "label": "Text Alignment",
     "type": "dropdown",
