@@ -55,6 +55,7 @@ body {
 }
 
 #div-cover {
+    height: {{coverHeight}}px;
     width: {{coverWidth}}%;
     z-index: 100;
     background-color: {{currentBGColor}};

@@ -38,7 +38,7 @@ var spotifyApi;
 var updateRefreshRate;
 var scrollingDelay;
 
-let el_container, el_cover, el_song, el_artists, el_album, el_track, el_previous, el_progress, el_progressText, el_progressText_current, el_progressBar_current, el_progressText_total;
+let el_container, el_cover, el_cover_img, el_song, el_artists, el_album, el_track, el_previous, el_progress, el_progressText, el_progressText_current, el_progressBar_current, el_progressText_total;
 
 function refreshInfo() {
   now = Date.now();
@@ -51,6 +51,7 @@ function refreshInfo() {
 
 /* Fetching info from Spotify API */
 function fetchInfo() {
+  //console.log("fetchInfo");
   let http = new XMLHttpRequest();
   let url = 'https://api.spotify.com/v1/me/player/currently-playing';
   http.open('GET', url);
@@ -117,22 +118,19 @@ function updateInfo() {
   el_track.innerText = track.name;
   el_artists.innerText = track.artists;
   el_album.innerText = track.album.name;
-  el_cover.src = track.album.cover + "?t=" + track.name + track.artists;
+  el_cover_img.src = track.album.cover + "?t=" + track.name + track.artists;
   el_progressText_total.innerText = msToTime(track.duration_ms);
   if (displayPrevious && previous.name.length > 1 && previous.artists.length > 1 && previous.album.name.length > 1) {
     //el_previous.innerText = previous.name + " - " + previous.artists;
-    el_previous.innerText = previousPattern.replaceAll("\[\[track\]\]", previous.name)
-      .replaceAll('[[artists]]', previous.artists)
-      .replaceAll('[[album]]', previous.album.name);
+    el_previous.innerText = processPattern(previousPattern, previous);
   }
   checkScrolling();
 }
 
 function checkScrolling() {
   for (let el of [el_track, el_artists, el_album, el_previous]) {
-    if (el.offsetWidth < el.parentNode.offsetWidth) {
-      el.classList.remove("scrolling");
-    } else {
+    el.classList.remove("scrolling");
+    if (el.offsetWidth >= el.parentNode.offsetWidth) {
       setTimeout(() => {
         el.classList.add("scrolling");
       }, scrollingDelay);
@@ -146,7 +144,7 @@ function updateProgress() {
 }
 
 function refreshToken() {
-  console.log("refreshing token...");
+  //console.log("refreshing token...");
   var http = new XMLHttpRequest();
   var url = 'https://accounts.spotify.com/api/token';
   var params = 'grant_type=refresh_token&refresh_token=' + refresh_token;
@@ -163,7 +161,7 @@ function refreshToken() {
       let res = JSON.parse(http.responseText);
       access_token = res.access_token;
       expires_at = Date.now() + res.expires_in * 1000;
-      // console.log("response: ", access_token);
+      //console.log("expires_at: ", expires_at);
       fetchInfo();
     }
   }
@@ -194,6 +192,9 @@ window.addEventListener('onEventReceived', function (obj) {
 });
 
 async function sendTwitchMessage(which, track) {
+  if (document.location.href.includes('editor')) {
+    return;
+  }
   //console.log("sendTwitchMessage");
   let message = "";
   if (track.name.length > 0 && track.artists.length > 0 && track.album.name.length > 0 && track.url.length > 0) {
@@ -202,10 +203,7 @@ async function sendTwitchMessage(which, track) {
     } else if (which == actions.previous) {
       message = messagePrevious;
     }
-    message = message.replaceAll("\[\[track\]\]", track.name)
-      .replaceAll('[[album]]', track.album.name)
-      .replaceAll('[[url]]', track.url)
-      .replaceAll('[[artists]]', track.artists);
+    message = processPattern(message, track);
   } else {
     console.log("error: ", track);
     message = messageError;
@@ -234,35 +232,6 @@ async function sendTwitchMessage(which, track) {
 
 /* Main process */
 function main() {
-  el_container = document.getElementById("container");
-  el_cover = document.getElementById("cover");
-  el_song = document.getElementById("div-song");
-  el_track = document.getElementById("title");
-  el_artists = document.getElementById("artists");
-  el_album = document.getElementById("album");
-  el_progress = document.getElementById("div-progress");
-  el_progressBar_current = document.getElementById("div-progressBar-current");
-  el_progressBar_total = document.getElementById("div-progressBar-total");
-  el_progressText = document.getElementById("div-progressText");
-  el_progressText_current = document.getElementById("progressText-current");
-  el_progressText_total = document.getElementById("progressText-total");
-  el_previous = document.getElementById("previousText");
-
-  if (fieldData.displayProgressBar == "flex" || fieldData.displayProgressText == "flex") {
-    el_progress.style.display = "flex";
-  } else {
-    el_progress.style.display = "none";
-  }
-  if (!displayCover) {
-    el_song.style.width = "100%";
-  }
-
-  refreshInfo();
-}
-
-/* Loading from streamelements.com */
-window.addEventListener('onWidgetLoad', function (obj) {
-  fieldData = obj.detail.fieldData;
   client_id = fieldData.client_id;
   client_secret = fieldData.client_secret;
   refresh_token = fieldData.refresh_token;
@@ -292,6 +261,53 @@ window.addEventListener('onWidgetLoad', function (obj) {
   displayPrevious = fieldData.displayPrevious == "flex" ? true : false;
   displayCover = fieldData.displayCover == "flex" ? true : false;
 
+
+  el_container = document.getElementById("container");
+  el_cover = document.getElementById("div-cover");
+  el_cover_img = document.getElementById("cover");
+  el_song = document.getElementById("div-song");
+  el_track = document.getElementById("title");
+  el_artists = document.getElementById("artists");
+  el_album = document.getElementById("album");
+  el_progress = document.getElementById("div-progress");
+  el_progressBar_current = document.getElementById("div-progressBar-current");
+  el_progressBar_total = document.getElementById("div-progressBar-total");
+  el_progressText = document.getElementById("div-progressText");
+  el_progressText_current = document.getElementById("progressText-current");
+  el_progressText_total = document.getElementById("progressText-total");
+  el_previous = document.getElementById("previousText");
+
+  if (fieldData.displayProgressBar == "flex" || fieldData.displayProgressText == "flex") {
+    el_progress.style.display = "flex";
+  } else {
+    el_progress.style.display = "none";
+  }
+  if (!displayCover) {
+    el_song.style.width = "100%";
+  }
+  if (fieldData.coverHeight == 0) {
+    el_cover.style.height = "auto";
+  }
+
+  refreshInfo();
+}
+
+/* Button clicked */
+window.addEventListener('onEventReceived', function (obj) {
+  const data = obj.detail.event;
+  if (data.listener === 'widget-button') {
+    if (data.field === 'testButton') {
+      main();
+    }
+  }
+});
+
+/* Loading from streamelements.com */
+window.addEventListener('onWidgetLoad', function (obj) {
+  fieldData = obj.detail.fieldData;
+  if (fieldData.testMode) {
+    return;
+  }
   main();
 });
 
@@ -336,6 +352,13 @@ function msToTime(duration) {
   time = minutes + ":" + seconds;
 
   return time;
+}
+
+function processPattern(message, track) {
+  return message.replace(/\[\[track\]\]/g, track.name)
+    .replace(/\[\[artists\]\]/g, track.artists)
+    .replace(/\[\[album\]\]/g, track.album.name)
+    .replace(/\[\[url\]\]/g, track.url);
 }
 
 /* End of utils */
