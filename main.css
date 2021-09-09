@@ -13,16 +13,16 @@ body {
 #container {
     display: flex;
     flex-direction: column;
-    height: 240px;
-    width: 1000px;
+    max-height: 240px;
+    width: {{widgetWidth}}px;
     overflow: hidden;
     border-radius: {{borderRadius}}px;
     opacity : 0;
 }
 
-#div-previous-row {
+#div-previousText {
     height: 40px;
-    width: 1000px;
+    width: {{widgetWidth}}px;
     background-color: {{previousBGColor}};
     align-items: center;
     overflow: hidden;
@@ -33,9 +33,9 @@ body {
     order: {{previousLocation}};
 }
 
-#previous {    
+#previousText {    
     text-transform: {{previousTextTransform}};
-	margin-left: {{previousAlignment}};
+	margin: {{previousAlignment}};
 	color: {{previousColor}};
 	font-family: '{{previousFontName}}', sans-serif;
 	font-size: {{previousFontSize}}px;
@@ -44,7 +44,7 @@ body {
 }
 
 #div-current {
-    height: 200px;
+    max-height: 200px;
     display: flex;
     z-index: -2;
     order: 1;
@@ -55,7 +55,7 @@ body {
 }
 
 #div-cover {
-    width: 20%;
+    width: {{coverWidth}}%;
     z-index: 100;
     background-color: {{currentBGColor}};
     display: {{displayCover}};
@@ -66,17 +66,17 @@ body {
 }
 
 #cover {
-    height: {{coverSize}}%;
+    width: {{coverSize}}%;
     border-radius: {{coverCorner}}px;
 }
 
 #div-song {
-    width: 80%;
-    display: flex;
+    width: calc(100% - {{coverWidth}}%);
+    display: {{displayTrack}};
     flex-direction: column;
-    box-shadow: inset -19px 0px 3px -3px {{currentBGColor}},
-  							   0 0 0 1px {{currentBGColor}},
-  				inset  19px 0px 3px -3px {{currentBGColor}};
+    box-shadow: inset -2.375% 0px 0.375% -0.375% {{currentBGColor}},
+  							   0 0 0 0.125% {{currentBGColor}},
+  				inset  2.375% 0px 0.375% -0.375% {{currentBGColor}};
 }
 
 #div-song>div {
@@ -87,17 +87,17 @@ body {
 }
 
 #div-title {
-    height: 36%;
-    display: flex;
+    height: 72px;
+    display: {{displayTitle}};
     align-items: center;
     
     background-color: {{currentBGColor}};
     order: {{titleLocation}};
 }
 
-#div-artist {
-    height: 26%;
-    display: flex;
+#div-artists {
+    height: 52px;
+    display: {{displayArtists}};
     align-items: center;
     
     background-color: {{currentBGColor}};
@@ -105,15 +105,15 @@ body {
 }
 
 #div-album {
-    height: 20%;
-    display: flex;
+    height: 40px;
+    display: {{displayAlbum}};
     align-items: center;
     
     background-color: {{currentBGColor}};
     order: {{albumLocation}};
 }
 
-#div-duration {
+#div-progress {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -121,31 +121,15 @@ body {
     margin-right: 2%;
     padding-left: 0% !important;
     padding-right: 0% !important;
-    height: 18%;
+    height: 36px;
     width: 96%;
     
     background-color: {{currentBGColor}};
     order: {{progressLocation}};
 }
 
-#div-duration-row {
-    display: flex;
-    flex-direction: {{progressTotalLocation}};
-    justify-content: space-between;
-    width: 100%;
-
-    order: {{durationLocation}};
-}
-
-#div-duration-current {
-    align-self: start;
-}
-
-#div-duration-total {
-    align-self: end;
-}
-
-#div-progress {
+#div-progressBar-total {
+    display: {{displayProgressBar}};
     height: 16%;
     width: 100%;
     transform: scaleX({{progressDirection}});
@@ -153,10 +137,28 @@ body {
     order: 1;
 }
 
-#div-bar {
+#div-progressBar-current {
     height: 100%;
     background-color: {{progressCurrentColor}};
 }
+
+#div-progressText {
+    display: {{displayProgressText}};
+    flex-direction: {{progressTextOrder}};
+    justify-content: space-between;
+    width: 100%;
+
+    order: {{progressTextLocation}};
+}
+
+#div-progressText-current {
+    align-self: start;
+}
+
+#div-progressText-total {
+    align-self: end;
+}
+
 
 
 span {
@@ -165,7 +167,7 @@ span {
 
 #title {
     text-transform: {{titleTextTransform}};
-	margin-left: {{titleAlignment}};
+	margin: {{titleAlignment}};
 	color: {{titleColor}};
 	font-family: '{{titleFontName}}', sans-serif;
 	font-size: {{titleFontSize}}px;
@@ -173,20 +175,19 @@ span {
 	text-shadow: {{titleShadowH}}px {{titleShadowV}}px {{titleShadowB}}px {{titleShadowColor}};
 }
 
-#artist {
-    
-text-transform: {{artistsTextTransform}};
-margin-left: {{artistsAlignment}};
-color: {{artistsColor}};
-font-family: '{{artistsFontName}}', sans-serif;
-font-size: {{artistsFontSize}}px;
-font-weight: {{artistsFontWeight}};
-text-shadow: {{artistsShadowH}}px {{artistsShadowV}}px {{artistsShadowB}}px {{artistsShadowColor}};
+#artists {
+    text-transform: {{artistsTextTransform}};
+    margin: {{artistsAlignment}};
+    color: {{artistsColor}};
+    font-family: '{{artistsFontName}}', sans-serif;
+    font-size: {{artistsFontSize}}px;
+    font-weight: {{artistsFontWeight}};
+    text-shadow: {{artistsShadowH}}px {{artistsShadowV}}px {{artistsShadowB}}px {{artistsShadowColor}};
 }
 
 #album {
     text-transform: {{albumTextTransform}};
-	margin-left: {{albumAlignment}};
+	margin: {{albumAlignment}};
 	color: {{albumColor}};
 	font-family: '{{albumFontName}}', sans-serif;
 	font-size: {{albumFontSize}}px;
@@ -195,16 +196,14 @@ text-shadow: {{artistsShadowH}}px {{artistsShadowV}}px {{artistsShadowB}}px {{ar
 
 }
 
-#duration-current,
-#duration-total {
-    
-    text-transform: {{durationTextTransform}};
-	margin-left: {{durationAlignment}};
-	color: {{durationColor}};
-	font-family: '{{durationFontName}}', sans-serif;
-	font-size: {{durationFontSize}}px;
-	font-weight: {{durationFontWeight}};
-	text-shadow: {{durationShadowH}}px {{durationShadowV}}px {{durationShadowB}}px {{durationShadowColor}};
+#progressText-current,
+#progressText-total {
+    margin-left: {{progressTextAlignment}};
+	color: {{progressTextColor}};
+	font-family: '{{progressTextFontName}}', sans-serif;
+	font-size: {{progressTextFontSize}}px;
+	font-weight: {{progressTextFontWeight}};
+	text-shadow: {{progressTextShadowH}}px {{progressTextShadowV}}px {{progressTextShadowB}}px {{progressTextShadowColor}};
 }
 
 

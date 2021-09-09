@@ -2,6 +2,7 @@ const actions = {
   current: "current",
   previous: "previous",
 };
+let fieldData;
 
 var chatCommandsEnabled = false;
 let displayPrevious = true;
@@ -37,7 +38,7 @@ var spotifyApi;
 var updateRefreshRate;
 var scrollingDelay;
 
-let el_container, el_cover, el_song, el_artists, el_album, el_track, el_previous, el_progress_text, el_progress_bar, el_duration;
+let el_container, el_cover, el_song, el_artists, el_album, el_track, el_previous, el_progress, el_progressText, el_progressText_current, el_progressBar_current, el_progressText_total;
 
 function refreshInfo() {
   now = Date.now();
@@ -119,7 +120,7 @@ function updateInfo() {
   el_artists.innerText = track.artists;
   el_album.innerText = track.album.name;
   el_cover.src = track.album.cover + "?t=" + track.name + track.artists;
-  el_duration.innerText = msToTime(track.duration_ms);
+  el_progressText_total.innerText = msToTime(track.duration_ms);
   if (displayPrevious && previous.name.length > 1 && previous.artists.length > 1) {
     el_previous.innerText = previous.name + " - " + previous.artists;
   }
@@ -139,8 +140,8 @@ function checkScrolling() {
 }
 
 function updateProgress() {
-  el_progress_text.innerText = msToTime(track.progress_ms);
-  el_progress_bar.style.width = (track.progress_ms / track.duration_ms * 100) + "%";
+  el_progressText_current.innerText = msToTime(track.progress_ms);
+  el_progressBar_current.style.width = (track.progress_ms / track.duration_ms * 100) + "%";
 }
 
 function refreshToken() {
@@ -233,19 +234,23 @@ async function sendTwitchMessage(which, track) {
 /* Main process */
 function main() {
   el_container = document.getElementById("container");
-  el_song = document.getElementById("div-song");
-  el_artists = document.getElementById("artist");
-  el_album = document.getElementById("album");
-  el_track = document.getElementById("title");
   el_cover = document.getElementById("cover");
-  el_progress_text = document.getElementById("duration-current");
-  el_progress_bar = document.getElementById("div-bar");
-  el_duration = document.getElementById("duration-total");
-  el_previous = document.getElementById("previous");
+  el_song = document.getElementById("div-song");
+  el_track = document.getElementById("title");
+  el_artists = document.getElementById("artists");
+  el_album = document.getElementById("album");
+  el_progress = document.getElementById("div-progress");
+  el_progressBar_current = document.getElementById("div-progressBar-current");
+  el_progressBar_total = document.getElementById("div-progressBar-total");
+  el_progressText = document.getElementById("div-progressText");
+  el_progressText_current = document.getElementById("progressText-current");
+  el_progressText_total = document.getElementById("progressText-total");
+  el_previous = document.getElementById("previousText");
 
-
-  if (!displayPrevious) {
-    el_container.style.height = "200px";
+  if (fieldData.displayProgressBar == "flex" || fieldData.displayProgressText == "flex") {
+    el_progress.style.display = "flex";
+  } else {
+    el_progress.style.display = "none";
   }
   if (!displayCover) {
     el_song.style.width = "100%";
@@ -256,7 +261,7 @@ function main() {
 
 /* Loading from streamelements.com */
 window.addEventListener('onWidgetLoad', function (obj) {
-  const fieldData = obj.detail.fieldData;
+  fieldData = obj.detail.fieldData;
   client_id = fieldData.client_id;
   client_secret = fieldData.client_secret;
   refresh_token = fieldData.refresh_token;

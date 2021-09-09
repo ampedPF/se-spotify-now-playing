@@ -78,6 +78,12 @@
     "group": "Commands Configuration"
   },
 
+  "widgetWidth": {
+    "type": "number",
+    "label": "Width",
+    "value": 1000,
+    "group": "Widget's Configuration"
+  },
   "borderRadius": {
     "type": "number",
     "label": "Borders | 0 : right angles; 10+: round corners",
@@ -132,16 +138,6 @@
     },
     "group": "Widget's Configuration"
   },
-  "displayPrevious": {
-    "type": "dropdown",
-    "label": "Display Previous Track Info",
-    "value": "flex",
-    "options": {
-      "flex": "Yes",
-      "none": "No"
-    },
-    "group": "Widget's Configuration"
-  },
   "previousLocation": {
     "type": "dropdown",
     "label": "Previous Track Info Location",
@@ -168,7 +164,7 @@
       "flex": "Yes",
       "none": "No"
     },
-    "group": "Cover"
+    "group": "Cover & Track"
   },
   "coverLocation": {
     "type": "dropdown",
@@ -178,48 +174,78 @@
       "0": "Left",
       "2": "Right"
     },
-    "group": "Cover"
+    "group": "Cover & Track"
+  },
+  "coverWidth": {
+    "type": "slider",
+    "label": "Cover Width (%)",
+    "value": 20,
+    "min": 0,
+    "max": 100,
+    "step": 1,
+    "group": "Cover & Track"
   },
   "coverSize": {
     "label": "Cover Size (%)",
     "type": "number",
     "value": 100,
-    "group": "Cover"
+    "group": "Cover & Track"
   },
   "coverCorner": {
     "label": "Cover Corner",
     "type": "number",
     "value": 0,
-    "group": "Cover"
+    "group": "Cover & Track"
+  },
+  "displayTrack": {
+    "label": "Display Track",
+    "type": "dropdown",
+    "value": "flex",
+    "options": {
+      "flex": "Yes",
+      "none": "No"
+    },
+    "group": "Cover & Track"
   },
 
+  "displayTitle": {
+    "label": "Display Title",
+    "type": "dropdown",
+    "value": "flex",
+    "options": {
+      "flex": "Yes",
+      "none": "No"
+    },
+    "group": "Title"
+  },
   "titleAlignment": {
     "label": "Text Alignment",
     "type": "dropdown",
-    "value": "",
+    "value": "0 auto 0 0",
     "options": {
-      "none": "Left",
-      "auto": "Right"
+      "0 auto 0 0": "Left",
+      "0 auto 0 auto": "Center",
+      "0 0 0 auto": "Right"
     },
-    "group": "Title Text"
+    "group": "Title"
   },
   "titleColor": {
     "label": "Color",
     "type": "colorpicker",
     "value": "#ffffff",
-    "group": "Title Text"
+    "group": "Title"
   },
   "titleFontName": {
     "label": "Font Name",
     "type": "googleFont",
     "value": "Roboto",
-    "group": "Title Text"
+    "group": "Title"
   },
   "titleFontSize": {
     "label": "Font Size",
     "type": "number",
     "value": 48,
-    "group": "Title Text"
+    "group": "Title"
   },
   "titleFontWeight": {
     "label": "Font Weight",
@@ -233,7 +259,7 @@
       "700": "Bold (700)",
       "900": "Black (900)"
     },
-    "group": "Title Text"
+    "group": "Title"
   },
   "titleTextTransform": {
     "label": "Text Transform",
@@ -245,60 +271,71 @@
       "none": "None",
       "uppercase": "UPPERCASE"
     },
-    "group": "Title Text"
+    "group": "Title"
   },
   "titleShadowH": {
     "label": "Shadow Horizontal Position",
     "type": "number",
     "value": 0,
-    "group": "Title Text"
+    "group": "Title"
   },
   "titleShadowV": {
     "label": "Shadow Vertical Position",
     "type": "number",
     "value": 0,
-    "group": "Title Text"
+    "group": "Title"
   },
   "titleShadowB": {
     "label": "Shadow Blur",
     "type": "number",
     "value": 0,
-    "group": "Title Text"
+    "group": "Title"
   },
   "titleShadowColor": {
     "label": "Shadow Color",
     "type": "colorpicker",
     "value": "#000000",
-    "group": "Title Text"
+    "group": "Title"
   },
 
+  "displayArtists": {
+    "label": "Display Artists",
+    "type": "dropdown",
+    "value": "flex",
+    "options": {
+      "flex": "Yes",
+      "none": "No"
+    },
+    "group": "Artists"
+  },
   "artistsAlignment": {
     "label": "Text Alignment",
     "type": "dropdown",
-    "value": "none",
+    "value": "0 auto 0 0",
     "options": {
-      "none": "Left",
-      "auto": "Right"
+      "0 auto 0 0": "Left",
+      "0 auto 0 auto": "Center",
+      "0 0 0 auto": "Right"
     },
-    "group": "Artists Text"
+    "group": "Artists"
   },
   "artistsColor": {
     "label": "Color",
     "type": "colorpicker",
     "value": "#707070",
-    "group": "Artists Text"
+    "group": "Artists"
   },
   "artistsFontName": {
     "label": "Font Name",
     "type": "googleFont",
     "value": "Roboto",
-    "group": "Artists Text"
+    "group": "Artists"
   },
   "artistsFontSize": {
     "label": "Font Size",
     "type": "number",
     "value": 36,
-    "group": "Artists Text"
+    "group": "Artists"
   },
   "artistsFontWeight": {
     "label": "Font Weight",
@@ -312,7 +349,7 @@
       "700": "Bold (700)",
       "900": "Black (900)"
     },
-    "group": "Artists Text"
+    "group": "Artists"
   },
   "artistsTextTransform": {
     "label": "Text Transform",
@@ -324,60 +361,71 @@
       "none": "None",
       "uppercase": "UPPERCASE"
     },
-    "group": "Artists Text"
+    "group": "Artists"
   },
   "artistsShadowH": {
     "label": "Shadow Horizontal Position",
     "type": "number",
     "value": 0,
-    "group": "Artists Text"
+    "group": "Artists"
   },
   "artistsShadowV": {
     "label": "Shadow Vertical Position",
     "type": "number",
     "value": 0,
-    "group": "Artists Text"
+    "group": "Artists"
   },
   "artistsShadowB": {
     "label": "Shadow Blur",
     "type": "number",
     "value": 0,
-    "group": "Artists Text"
+    "group": "Artists"
   },
   "artistsShadowColor": {
     "label": "Shadow Color",
     "type": "colorpicker",
     "value": "#000000",
-    "group": "Artists Text"
+    "group": "Artists"
   },
 
+  "displayAlbum": {
+    "label": "Display Album",
+    "type": "dropdown",
+    "value": "flex",
+    "options": {
+      "flex": "Yes",
+      "none": "No"
+    },
+    "group": "Album"
+  },
   "albumAlignment": {
     "label": "Text Alignment",
     "type": "dropdown",
-    "value": "none",
+    "value": "0 auto 0 0",
     "options": {
-      "none": "Left",
-      "auto": "Right"
+      "0 auto 0 0": "Left",
+      "0 auto 0 auto": "Center",
+      "0 0 0 auto": "Right"
     },
-    "group": "Album Text"
+    "group": "Album"
   },
   "albumColor": {
     "label": "Color",
     "type": "colorpicker",
     "value": "#7b7ba7",
-    "group": "Album Text"
+    "group": "Album"
   },
   "albumFontName": {
     "label": "Font Name",
     "type": "googleFont",
     "value": "Roboto",
-    "group": "Album Text"
+    "group": "Album"
   },
   "albumFontSize": {
     "label": "Font Size",
     "type": "number",
     "value": 32,
-    "group": "Album Text"
+    "group": "Album"
   },
   "albumFontWeight": {
     "label": "Font Weight",
@@ -391,7 +439,7 @@
       "700": "Bold (700)",
       "900": "Black (900)"
     },
-    "group": "Album Text"
+    "group": "Album"
   },
   "albumTextTransform": {
     "label": "Text Transform",
@@ -403,33 +451,43 @@
       "none": "None",
       "uppercase": "UPPERCASE"
     },
-    "group": "Album Text"
+    "group": "Album"
   },
   "albumShadowH": {
     "label": "Shadow Horizontal Position",
     "type": "number",
     "value": 0,
-    "group": "Album Text"
+    "group": "Album"
   },
   "albumShadowV": {
     "label": "Shadow Vertical Position",
     "type": "number",
     "value": 0,
-    "group": "Album Text"
+    "group": "Album"
   },
   "albumShadowB": {
     "label": "Shadow Blur",
     "type": "number",
     "value": 0,
-    "group": "Album Text"
+    "group": "Album"
   },
   "albumShadowColor": {
     "label": "Shadow Color",
     "type": "colorpicker",
     "value": "#000000",
-    "group": "Album Text"
+    "group": "Album"
   },
 
+  "displayProgressBar": {
+    "label": "Display Progress Bar",
+    "type": "dropdown",
+    "value": "flex",
+    "options": {
+      "flex": "Yes",
+      "none": "No"
+    },
+    "group": "Progress Bar"
+  },
   "progressCurrentColor": {
     "label": "Current Progress Color",
     "type": "colorpicker",
@@ -453,7 +511,17 @@
     "group": "Progress Bar"
   },
 
-  "durationLocation": {
+  "displayProgressText": {
+    "label": "Display Progress",
+    "type": "dropdown",
+    "value": "flex",
+    "options": {
+      "flex": "Yes",
+      "none": "No"
+    },
+    "group": "Progress Text"
+  },
+  "progressTextLocation": {
     "label": "Text Location",
     "type": "dropdown",
     "value": "2",
@@ -463,8 +531,8 @@
     },
     "group": "Progress Text"
   },
-  "progressTotalLocation": {
-    "label": "Progress/Total Duration Text Location",
+  "progressTextOrder": {
+    "label": "Text Order",
     "type": "dropdown",
     "value": "row",
     "options": {
@@ -473,25 +541,25 @@
     },
     "group": "Progress Text"
   },
-  "durationColor": {
+  "progressTextColor": {
     "label": "Color",
     "type": "colorpicker",
     "value": "#707070",
     "group": "Progress Text"
   },
-  "durationFontName": {
+  "progressTextFontName": {
     "label": "Font Name",
     "type": "googleFont",
     "value": "Roboto",
     "group": "Progress Text"
   },
-  "durationFontSize": {
+  "progressTextFontSize": {
     "label": "Font Size",
     "type": "number",
     "value": 18,
     "group": "Progress Text"
   },
-  "durationFontWeight": {
+  "progressTextFontWeight": {
     "label": "Font Weight",
     "type": "dropdown",
     "value": "700",
@@ -505,58 +573,69 @@
     },
     "group": "Progress Text"
   },
-  "durationShadowH": {
+  "progressTextShadowH": {
     "label": "Shadow Horizontal Position",
     "type": "number",
     "value": 0,
     "group": "Progress Text"
   },
-  "durationShadowV": {
+  "progressTextShadowV": {
     "label": "Shadow Vertical Position",
     "type": "number",
     "value": 0,
     "group": "Progress Text"
   },
-  "durationShadowB": {
+  "progressTextShadowB": {
     "label": "Shadow Blur",
     "type": "number",
     "value": 0,
     "group": "Progress Text"
   },
-  "durationShadowColor": {
+  "progressTextShadowColor": {
     "label": "Shadow Color",
     "type": "colorpicker",
     "value": "#000000",
     "group": "Progress Text"
   },
 
+  "displayPrevious": {
+    "type": "dropdown",
+    "label": "Display Previous Track Info",
+    "value": "flex",
+    "options": {
+      "flex": "Yes",
+      "none": "No"
+    },
+    "group": "Previous"
+  },
   "previousAlignment": {
     "label": "Text Alignment",
     "type": "dropdown",
-    "value": "none",
+    "value": "0 auto 0 0",
     "options": {
-      "none": "Left",
-      "auto": "Right"
+      "0 auto 0 0": "Left",
+      "0 auto 0 auto": "Center",
+      "0 0 0 auto": "Right"
     },
-    "group": "Previous Text"
+    "group": "Previous"
   },
   "previousColor": {
     "label": "Color",
     "type": "colorpicker",
     "value": "#ffffff",
-    "group": "Previous Text"
+    "group": "Previous"
   },
   "previousFontName": {
     "label": "Font Name",
     "type": "googleFont",
     "value": "Roboto",
-    "group": "Previous Text"
+    "group": "Previous"
   },
   "previousFontSize": {
     "label": "Font Size",
     "type": "number",
     "value": 24,
-    "group": "Previous Text"
+    "group": "Previous"
   },
   "previousFontWeight": {
     "label": "Font Weight",
@@ -570,7 +649,7 @@
       "700": "Bold (700)",
       "900": "Black (900)"
     },
-    "group": "Previous Text"
+    "group": "Previous"
   },
   "previousTextTransform": {
     "label": "Text Transform",
@@ -582,31 +661,31 @@
       "none": "None",
       "uppercase": "UPPERCASE"
     },
-    "group": "Previous Text"
+    "group": "Previous"
   },
   "previousShadowH": {
     "label": "Shadow Horizontal Position",
     "type": "number",
     "value": 0,
-    "group": "Previous Text"
+    "group": "Previous"
   },
   "previousShadowV": {
     "label": "Shadow Vertical Position",
     "type": "number",
     "value": 0,
-    "group": "Previous Text"
+    "group": "Previous"
   },
   "previousShadowB": {
     "label": "Shadow Blur",
     "type": "number",
     "value": 0,
-    "group": "Previous Text"
+    "group": "Previous"
   },
   "previousShadowColor": {
     "label": "Shadow Color",
     "type": "colorpicker",
     "value": "#000000",
-    "group": "Previous Text"
+    "group": "Previous"
   },
 
   "currentBGColor": {
