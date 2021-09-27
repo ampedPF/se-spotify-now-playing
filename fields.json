@@ -189,7 +189,7 @@
   },
   "coverHeight": {
     "type": "number",
-    "label": "Cover Area Width (px)",
+    "label": "Cover Area Height (px)",
     "value": 0,
     "min": 0,
     "max": 200,
