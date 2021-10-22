@@ -88,6 +88,22 @@
     "value": "No information found",
     "group": "Commands Configuration"
   },
+  "chatAutomaticUpdate": {
+    "type": "dropdown",
+    "label": "Enable Chat Automatic Update",
+    "value": "1",
+    "options": {
+      "1": "Yes",
+      "0": "No"
+    },
+    "group": "Commands Configuration"
+  },
+  "chatAutomaticUpdateDelay": {
+    "type": "number",
+    "label": "Chat Automatic Update dely in ms",
+    "value": 5000,
+    "group": "Commands Configuration"
+  },
 
   "widgetWidth": {
     "type": "number",

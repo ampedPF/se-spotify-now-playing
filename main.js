@@ -12,6 +12,8 @@ let client_id, client_secret, access_token, refresh_token;
 let account_id, jwt_token;
 var expires_at = 0;
 var now = 0;
+let shoutout;
+let chatAutomaticUpdate, chatAutomaticUpdateDelay, shoutoutDone;
 
 var track = {
   name: "",
@@ -100,16 +102,28 @@ function process(data) {
       track.duration_ms = data.item.duration_ms;
       updateInfo();
       el_container.classList.remove("animateQueue");
+      shoutoutDone = false;
+    }
+    if (!shoutoutDone) {
+      shoutoutTwitch();
     }
     track.progress_ms = data.progress_ms;
     updateProgress();
-  } else if (el_container.classList.contains("animateIn")) {
-    el_container.classList.remove("animateIn");
-    if (!animateQueueEnabled) {
-      el_container.classList.add("animateOut");
+  } else {
+    if (shoutout !== undefined) {
+      clearTimeout(shoutout);
+      if (track.progress_ms < chatAutomaticUpdateDelay) {
+        shoutoutDone = false;
+      }
     }
-    el_container.style.opacity = 0;
-    widgetVisible = false;
+    if (el_container.classList.contains("animateIn")) {
+      el_container.classList.remove("animateIn");
+      if (!animateQueueEnabled) {
+        el_container.classList.add("animateOut");
+      }
+      el_container.style.opacity = 0;
+      widgetVisible = false;
+    }
   }
   setTimeout(refreshInfo, updateRefreshRate);
 }
@@ -141,6 +155,18 @@ function checkScrolling() {
 function updateProgress() {
   el_progressText_current.innerText = msToTime(track.progress_ms);
   el_progressBar_current.style.width = (track.progress_ms / track.duration_ms * 100) + "%";
+}
+
+function shoutoutTwitch() {
+  if (shoutout !== undefined) {
+    clearTimeout(shoutout);
+  }
+  if (chatAutomaticUpdate && chatCommandsEnabled) {
+    shoutout = setTimeout(() => {
+      sendTwitchMessage(actions.current, track);
+    }, chatAutomaticUpdateDelay);
+    shoutoutDone = true;
+  }
 }
 
 function refreshToken() {
@@ -192,9 +218,6 @@ window.addEventListener('onEventReceived', function (obj) {
 });
 
 async function sendTwitchMessage(which, track) {
-  if (document.location.href.includes('editor')) {
-    return;
-  }
   //console.log("sendTwitchMessage");
   let message = "";
   if (track.name.length > 0 && track.artists.length > 0 && track.album.name.length > 0 && track.url.length > 0) {
@@ -244,6 +267,8 @@ function main() {
   updateRefreshRate = fieldData.updateRefreshRate < 500 ? 500 : fieldData.updateRefreshRate;
   scrollingDelay = fieldData.scrollingDelay;
   chatCommandsEnabled = parseInt(fieldData.chatCommandsEnabled);
+  chatAutomaticUpdate = parseInt(fieldData.chatAutomaticUpdate);
+  chatAutomaticUpdateDelay = parseInt(fieldData.chatAutomaticUpdateDelay);
   animateQueueEnabled = parseInt(fieldData.animateQueueEnabled);
   if (animateQueueEnabled) {
     let stylesheet, animateIn, animateOut, animateInDuration, animateHoldDuration, animateOutDuration;
