@@ -56,37 +56,37 @@
       "1": "Yes",
       "0": "No"
     },
-    "group": "Commands Configuration"
+    "group": "Chat Configuration"
   },
   "chatCommandCurrent": {
     "label": "Chat Command for Current Track Info",
     "type": "text",
     "value": "!current",
-    "group": "Commands Configuration"
+    "group": "Chat Configuration"
   },
   "chatTextCurrent": {
     "label": "Current Track response [[track]] / [[album]] / [[artists]] / [[url]]",
     "type": "text",
     "value": "The current track is \"[[track]]\" by [[artists]] ([[url]]).",
-    "group": "Commands Configuration"
+    "group": "Chat Configuration"
   },
   "chatCommandPrevious": {
     "label": "Chat Command for Previous Track Info",
     "type": "text",
     "value": "!previous",
-    "group": "Commands Configuration"
+    "group": "Chat Configuration"
   },
   "chatTextPrevious": {
     "label": "Current Track response [[track]] / [[album]] / [[artists]] / [[url]]",
     "type": "text",
     "value": "The previous track was \"[[track]]\" by [[artists]] ([[url]]).",
-    "group": "Commands Configuration"
+    "group": "Chat Configuration"
   },
   "chatTextError": {
     "label": "Error response",
     "type": "text",
     "value": "No information found",
-    "group": "Commands Configuration"
+    "group": "Chat Configuration"
   },
   "chatAutomaticUpdate": {
     "type": "dropdown",
@@ -96,7 +96,7 @@
       "1": "Yes",
       "0": "No"
     },
-    "group": "Commands Configuration"
+    "group": "Chat Configuration"
   },
   "chatAutomaticUpdateDelay": {
     "type": "number",
