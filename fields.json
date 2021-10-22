@@ -102,7 +102,7 @@
     "type": "number",
     "label": "Chat Automatic Update dely in ms",
     "value": 5000,
-    "group": "Commands Configuration"
+    "group": "Chat Configuration"
   },
 
   "widgetWidth": {

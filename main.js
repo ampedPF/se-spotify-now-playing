@@ -161,7 +161,7 @@ function shoutoutTwitch() {
   if (shoutout !== undefined) {
     clearTimeout(shoutout);
   }
-  if (chatAutomaticUpdate && chatCommandsEnabled) {
+  if (chatAutomaticUpdate) {
     shoutout = setTimeout(() => {
       sendTwitchMessage(actions.current, track);
     }, chatAutomaticUpdateDelay);
