@@ -40,7 +40,8 @@ var spotifyApi;
 var updateRefreshRate;
 var scrollingDelay;
 
-let el_container, el_cover, el_cover_img, el_song, el_artists, el_album, el_track, el_previous, el_progress, el_progressText, el_progressText_current, el_progressBar_current, el_progressText_total;
+let el_container, el_cover, el_cover_img, el_song, el_artists, el_album, el_track, el_previous,
+  el_progress, el_progressText, el_progressText_current, el_progressBar_current, el_progressText_total;
 
 function refreshInfo() {
   now = Date.now();
@@ -245,9 +246,9 @@ async function sendTwitchMessage(which, track) {
       body: JSON.stringify(data)
     })
     .then(response => response.json())
-    .then(result => {
-      //console.log(result)
-    })
+    /*.then(result => {
+      console.log(result)
+    })*/
     .catch(err => {
       console.log(err)
     });
