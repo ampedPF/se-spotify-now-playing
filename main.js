@@ -15,6 +15,11 @@ var now = 0;
 let shoutout;
 let chatAutomaticUpdate, chatAutomaticUpdateDelay, shoutoutDone;
 
+var prefixes = {
+  artists: "",
+  album: ""
+}
+
 var track = {
   name: "",
   artists: [],
@@ -38,7 +43,7 @@ var previous = {
 };
 var spotifyApi;
 var updateRefreshRate;
-var scrollingDelay;
+var scrollingDelay, scrollingType;
 
 let el_container, el_cover, el_cover_img, el_song, el_artists, el_album, el_track, el_previous,
   el_progress, el_progressText, el_progressText_current, el_progressBar_current, el_progressText_total;
@@ -131,8 +136,8 @@ function process(data) {
 
 function updateInfo() {
   el_track.innerText = track.name;
-  el_artists.innerText = track.artists;
-  el_album.innerText = track.album.name;
+  el_artists.innerText = prefixes.artists + track.artists;
+  el_album.innerText = prefixes.album + track.album.name;
   el_cover_img.src = track.album.cover + "?t=" + track.name + track.artists;
   el_progressText_total.innerText = msToTime(track.duration_ms);
   if (displayPrevious && previous.name.length > 1 && previous.artists.length > 1 && previous.album.name.length > 1) {
@@ -144,10 +149,10 @@ function updateInfo() {
 
 function checkScrolling() {
   for (let el of [el_track, el_artists, el_album, el_previous]) {
-    el.classList.remove("scrolling");
+    el.classList.remove(scrollingType);
     if (el.offsetWidth >= el.parentNode.offsetWidth) {
       setTimeout(() => {
-        el.classList.add("scrolling");
+        el.classList.add(scrollingType);
       }, scrollingDelay);
     }
   }
@@ -267,9 +272,14 @@ function main() {
   messageError = fieldData.chatTextError;
   updateRefreshRate = fieldData.updateRefreshRate < 500 ? 500 : fieldData.updateRefreshRate;
   scrollingDelay = fieldData.scrollingDelay;
+  scrollingType = fieldData.scrollingType;
   chatCommandsEnabled = parseInt(fieldData.chatCommandsEnabled);
   chatAutomaticUpdate = parseInt(fieldData.chatAutomaticUpdate);
   chatAutomaticUpdateDelay = parseInt(fieldData.chatAutomaticUpdateDelay);
+
+  prefixes.artists = fieldData.artistsPrefix;
+  prefixes.album = fieldData.albumPrefix;
+
   animateQueueEnabled = parseInt(fieldData.animateQueueEnabled);
   if (animateQueueEnabled) {
     let stylesheet, animateIn, animateOut, animateInDuration, animateHoldDuration, animateOutDuration;

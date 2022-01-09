@@ -208,7 +208,7 @@ span {
 }
 
 
-.scrolling {
+.scrolling-slide {
     animation: slide 20s linear infinite;
     animation-delay: -10s;
 }
@@ -224,6 +224,32 @@ span {
 
     100% {
         transform: translateX(-100%);
+    }
+}
+
+.scrolling-bafslide {
+    animation: bafslide 20s linear infinite;
+}
+
+@keyframes bafslide {
+    0% {
+        transform: translateX(0%);
+    }
+
+    40% {
+        transform: translateX(calc(-100% + 768px));
+    }
+
+    50% {
+        transform: translateX(calc(-100% + 768px));
+    }
+    
+    90% {
+        transform: translateX(0%);
+    }
+    
+    100% {
+        transform: translateX(0%);
     }
 }
 

@@ -182,6 +182,16 @@
     "value": 1500,
     "group": "Scrolling"
   },
+  "scrollingType": {
+    "label": "Scrolling Type",
+    "type": "dropdown",
+    "value": "flex",
+    "options": {
+      "scrolling-slide": "Slide",
+      "scrolling-bafslide": "Back and Forth"
+    },
+    "group": "Scrolling"
+  },
 
   "displayCover": {
     "label": "Display Cover",
@@ -355,6 +365,12 @@
     },
     "group": "Artists"
   },
+  "artistsPrefix": {
+    "label": "Text Prefix",
+    "type": "text",
+    "value": "",
+    "group": "Artists"
+  },
   "artistsColor": {
     "label": "Color",
     "type": "colorpicker",
@@ -443,6 +459,12 @@
       "0 auto 0 auto": "Center",
       "0 0 0 auto": "Right"
     },
+    "group": "Album"
+  },
+  "albumPrefix": {
+    "label": "Text Prefix",
+    "type": "text",
+    "value": "",
     "group": "Album"
   },
   "albumColor": {
