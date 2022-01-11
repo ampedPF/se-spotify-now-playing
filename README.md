@@ -7,7 +7,7 @@ A StreamElements' custom widget to display currently playing track information.
 2. Once created, click on "Edit Settings" button and set the `Redirect URIs` to
 `https://ampedpf.github.io/spotify-now-playing/web-auth/` before saving.
 
-3. To retrieve an `access_token` and a `refresh_token`, use my custom [Spotify Web Auth](https://ampedpf.github.io/spotify-now-playing/web-auth/) page with scopes set at the very least to : 
+3. To retrieve an `access_token` and a `refresh_token`, use my custom [Spotify Web Auth](https://ampedpf.github.io/se-spotify-now-playing/web-auth/) page with scopes set at the very least to : 
 ```
 user-read-playback-position user-read-recently-played
 ```
