@@ -2,9 +2,18 @@ const actions = {
   current: "current",
   previous: "previous",
 };
+const commands = {
+  current: "!current",
+  previous: "!previous",
+};
 let fieldData;
 
 var chatCommandsEnabled = false;
+var chatCommandsAllowModerator = false;
+var chatCommandsAllowVIP = false;
+var chatCommandsAllowSubs = false;
+var chatCommandsAllowEveryone = false;
+
 let displayPrevious = true;
 let displayCover = true;
 let previousPattern, messageCurrent, messagePrevious, messageError;
@@ -14,6 +23,9 @@ var expires_at = 0;
 var now = 0;
 let shoutout;
 let chatAutomaticUpdate, chatAutomaticUpdateDelay, shoutoutDone;
+let chatCommandLastCallCurrent = 0;
+let chatCommandLastCallPrevious = 0;
+let chatCommandCallDelay = 0;
 
 var prefixes = {
   artists: "",
@@ -141,7 +153,6 @@ function updateInfo() {
   el_cover_img.src = track.album.cover + "?t=" + track.name + track.artists;
   el_progressText_total.innerText = msToTime(track.duration_ms);
   if (displayPrevious && previous.name.length > 1 && previous.artists.length > 1 && previous.album.name.length > 1) {
-    //el_previous.innerText = previous.name + " - " + previous.artists;
     el_previous.innerText = processPattern(previousPattern, previous);
   }
   checkScrolling();
@@ -213,10 +224,15 @@ window.addEventListener('onEventReceived', function (obj) {
     if (data["badges"][0]["type"]) {
       badge = data["badges"][0]["type"];
     }
-    if (badge === 'moderator' || badge === 'broadcaster') {
-      if (command == "{{chatCommandCurrent}}") {
+    if (chatCommandsAllowEveryone || badge === 'broadcaster' || (chatCommandsAllowModerator && badge === 'moderator') || (chatCommandsAllowVIP && badge === 'vip') || (chatCommandsAllowSubs && badge === 'subscriber')) {
+      let now = new Date();
+      if (commands.current.includes(command)) {
+        if (!(badge === 'broadcaster' || badge === 'moderator') && (now - chatCommandLastCallCurrent) < chatCommandCallDelay) return;
+        chatCommandLastCallCurrent = now;
         sendTwitchMessage(actions.current, track);
-      } else if (command == "{{chatCommandPrevious}}") {
+      } else if (commands.previous.includes(command)) {
+        if ((now - chatCommandLastCallPrevious) < chatCommandCallDelay) return;
+        chatCommandLastCallPrevious = now;
         sendTwitchMessage(actions.previous, previous);
       }
     }
@@ -274,8 +290,16 @@ function main() {
   scrollingDelay = fieldData.scrollingDelay;
   scrollingType = fieldData.scrollingType;
   chatCommandsEnabled = parseInt(fieldData.chatCommandsEnabled);
+  chatCommandsAllowModerator = fieldData.chatCommandsAllowModerator;
+  chatCommandsAllowVIP = fieldData.chatCommandsAllowVIP;
+  chatCommandsAllowSubs = fieldData.chatCommandsAllowSubs;
+  chatCommandsAllowEveryone = fieldData.chatCommandsAllowEveryone;
   chatAutomaticUpdate = parseInt(fieldData.chatAutomaticUpdate);
-  chatAutomaticUpdateDelay = parseInt(fieldData.chatAutomaticUpdateDelay);
+  chatAutomaticUpdateDelay = fieldData.chatAutomaticUpdateDelay * 1000;
+  chatCommandCallDelay = fieldData.chatCommandCallDelay * 1000;
+
+  commands.current = fieldData.chatCommandCurrent.replace(/\s/g, '').split("|");
+  commands.previous = fieldData.chatCommandPrevious.replace(/\s/g, '').split("|");
 
   prefixes.artists = fieldData.artistsPrefix;
   prefixes.album = fieldData.albumPrefix;

@@ -56,37 +56,63 @@
       "1": "Yes",
       "0": "No"
     },
-    "group": "Chat Configuration"
+    "group": "Chat Command Configuration"
+  },
+  "chatCommandsAllowModerator": {
+    "type": "checkbox",
+    "label": "Allow Moderators",
+    "group": "Chat Command Configuration"
+  },
+  "chatCommandsAllowVIP": {
+    "type": "checkbox",
+    "label": "Allow VIPs",
+    "group": "Chat Command Configuration"
+  },
+  "chatCommandsAllowSubs": {
+    "type": "checkbox",
+    "label": "Allow Subscribers",
+    "group": "Chat Command Configuration"
+  },
+  "chatCommandsAllowEveryone": {
+    "type": "checkbox",
+    "label": "Allow Everyone",
+    "group": "Chat Command Configuration"
   },
   "chatCommandCurrent": {
     "label": "Chat Command for Current Track Info",
     "type": "text",
     "value": "!current",
-    "group": "Chat Configuration"
+    "group": "Chat Command Configuration"
   },
   "chatTextCurrent": {
     "label": "Current Track response [[track]] / [[album]] / [[artists]] / [[url]]",
     "type": "text",
     "value": "The current track is \"[[track]]\" by [[artists]] ([[url]]).",
-    "group": "Chat Configuration"
+    "group": "Chat Command Configuration"
   },
   "chatCommandPrevious": {
     "label": "Chat Command for Previous Track Info",
     "type": "text",
     "value": "!previous",
-    "group": "Chat Configuration"
+    "group": "Chat Command Configuration"
   },
   "chatTextPrevious": {
     "label": "Current Track response [[track]] / [[album]] / [[artists]] / [[url]]",
     "type": "text",
     "value": "The previous track was \"[[track]]\" by [[artists]] ([[url]]).",
-    "group": "Chat Configuration"
+    "group": "Chat Command Configuration"
   },
   "chatTextError": {
     "label": "Error response",
     "type": "text",
     "value": "No information found",
-    "group": "Chat Configuration"
+    "group": "Chat Command Configuration"
+  },
+  "chatCommandCallDelay": {
+    "type": "number",
+    "label": "Chat Command Call delay in seconds",
+    "value": 20,
+    "group": "Chat Command Configuration"
   },
   "chatAutomaticUpdate": {
     "type": "dropdown",
@@ -96,13 +122,13 @@
       "1": "Yes",
       "0": "No"
     },
-    "group": "Chat Configuration"
+    "group": "Chat Command Configuration"
   },
   "chatAutomaticUpdateDelay": {
     "type": "number",
-    "label": "Chat Automatic Update dely in ms",
-    "value": 5000,
-    "group": "Chat Configuration"
+    "label": "Chat Automatic Update delay in seconds",
+    "value": 5,
+    "group": "Chat Command Configuration"
   },
 
   "widgetWidth": {
