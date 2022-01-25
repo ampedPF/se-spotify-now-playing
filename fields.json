@@ -11,19 +11,19 @@
     "group": "Test Mode"
   },
   "client_id": {
-    "type": "text",
+    "type": "password",
     "label": "Spotify Client ID",
     "value": "",
     "group": "Spotify & StreamElements"
   },
   "client_secret": {
-    "type": "text",
+    "type": "password",
     "label": "Spotify Client Secret",
     "value": "",
     "group": "Spotify & StreamElements"
   },
   "refresh_token": {
-    "type": "text",
+    "type": "password",
     "label": "Spotify Refresh Token",
     "value": "",
     "group": "Spotify & StreamElements"
@@ -36,13 +36,13 @@
   },
 
   "account_id": {
-    "type": "text",
+    "type": "password",
     "label": "StreamElements Account ID",
     "value": "",
     "group": "Spotify & StreamElements"
   },
   "jwt_token": {
-    "type": "text",
+    "type": "password",
     "label": "StreamElements JWT Token",
     "value": "",
     "group": "Spotify & StreamElements"
