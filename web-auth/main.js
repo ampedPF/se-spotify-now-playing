@@ -1,6 +1,9 @@
-var redirect_uri = "https://ampedpf.github.io/spotify-now-playing/web-auth/";
+var redirect_uri = "https://ampedpf.github.io/se-spotify-now-playing/web-auth/";
 var localStorage = window.localStorage;
-let client_id = "", client_secret = "", code = "", scope = "";
+let client_id = "",
+    client_secret = "",
+    code = "",
+    scope = "";
 let el_clientId, el_clientSecret, el_scope, el_error, el_accessToken, el_refreshToken;
 
 function login() {
@@ -19,16 +22,16 @@ function getTokens() {
     var url = 'https://accounts.spotify.com/api/token';
     var params = 'grant_type=authorization_code&code=' + code + '&redirect_uri=' + redirect_uri;
     http.open('POST', url, true);
-    
+
     //Send the proper header information along with the request
     http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    
+
     var auth_string = 'Basic ' + utf8_to_b64(client_id + ':' + client_secret);
     // console.log("auth_string :", auth_string);
     http.setRequestHeader('Authorization', auth_string);
-    
-    http.onreadystatechange = function() {//Call a function when the state changes.
-        if(http.readyState == 4) {
+
+    http.onreadystatechange = function () { //Call a function when the state changes.
+        if (http.readyState == 4) {
             let res = JSON.parse(http.responseText);
             if (http.status == 200) {
                 // console.log(res);
@@ -38,7 +41,7 @@ function getTokens() {
                 el_refreshToken.classList.add("has-value");
             } else {
                 //console.log(res);
-                if(res.error_description !== null) {
+                if (res.error_description !== null) {
                     el_error.innerText = "Error : " + res.error_description;
                     el_error.classList.add('.has-error');
                 }
@@ -63,7 +66,7 @@ function listCheckboxes() {
     //console.log("els :", els);
     scope = "";
     for (let i = 0; i < els.length; i++) {
-        if(els[i].checked){
+        if (els[i].checked) {
             //console.log("checked :", els[i].id);
             scope += els[i].id + " ";
         }
@@ -86,7 +89,7 @@ function parseScope() {
     var scope_arr = scope.split(" ");
     //console.log(scope_arr);
     for (let i = 0; i < scope_arr.length; i++) {
-        if(scope_arr[i] !== null && scope_arr[i].length > 0) {
+        if (scope_arr[i] !== null && scope_arr[i].length > 0) {
             document.getElementById(scope_arr[i]).checked = true;
         }
     }
@@ -98,17 +101,17 @@ function copyToClipboard(elem) {
     /* Select the text field */
     element.select();
     element.setSelectionRange(0, 99999); /* For mobile devices */
-  
-     /* Copy the text inside the text field */
+
+    /* Copy the text inside the text field */
     navigator.clipboard.writeText(element.value);
     element.setSelectionRange(0, 0);
 }
 
-function utf8_to_b64( str ) {
-    return window.btoa(unescape(encodeURIComponent( str )));
+function utf8_to_b64(str) {
+    return window.btoa(unescape(encodeURIComponent(str)));
 }
 
-window.addEventListener("load", function(){
+window.addEventListener("load", function () {
     el_clientId = document.getElementById("client-id");
     el_clientSecret = document.getElementById("client-secret");
     el_scope = document.getElementById("scope");
@@ -132,7 +135,7 @@ window.addEventListener("load", function(){
         el_scope.value = scope;
     }
 
-    if (code !== null && client_id !== null && client_secret !== null ) {
+    if (code !== null && client_id !== null && client_secret !== null) {
         getTokens();
     }
 });
