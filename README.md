@@ -16,6 +16,8 @@ A StreamElements' custom widget to display currently playing track information.
 3. To retrieve an `access_token` and a `refresh_token`, use my custom [Spotify Web Auth](https://ampedpf.github.io/se-spotify-now-playing/web-auth/) page with scopes set at the very least to :  
 `user-read-playback-position user-read-recently-played`  
 ![5-spotify-webauth](./images/5-spotify-webauth.png)  
+Then click on the login button and allow the app permissions on the opened spotify web page.  
+The token fields should be filled.  
 ![6-spotify-token](./images/6-spotify-token.png)  
 
 4. Login to [StreamElements](https://streamelements.com/dashboard/account/channels) and retrieve your `Account ID` and the `JWT Token` by clicking on the "Show secrets" toggle on the right side.
