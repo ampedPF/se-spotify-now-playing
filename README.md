@@ -23,6 +23,8 @@ The token fields should be filled.
 4. Login to [StreamElements](https://streamelements.com/dashboard/account/channels) and retrieve your `Account ID` and the `JWT Token` by clicking on the "Show secrets" toggle on the right side.
 
 ## Setting up the custom widget
+Click https://streamelements.com/dashboard/overlays/share/61de2febcdbe1264e84bf8b0 to skip step 1 to 9.
+
 1. Create an overlay from StreamElements' [Dashboard](https://streamelements.com/dashboard/overlays).
 
 2. Add a `STATIC/CUSTOM > Custom widget`.
