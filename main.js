@@ -159,14 +159,17 @@ function updateInfo() {
 }
 
 function checkScrolling() {
+  let scrolling = false;
   for (let el of [el_track, el_artists, el_album, el_previous]) {
     el.classList.remove(scrollingType);
     if (el.offsetWidth >= el.parentNode.offsetWidth) {
+      scrolling = true;
       setTimeout(() => {
         el.classList.add(scrollingType);
       }, scrollingDelay * 1000);
     }
   }
+  checkAnimateQueue(scrolling);
 }
 
 function updateProgress() {
@@ -289,6 +292,7 @@ function main() {
   updateRefreshRate = fieldData.updateRefreshRate < 500 ? 500 : fieldData.updateRefreshRate;
   scrollingDelay = fieldData.scrollingDelay;
   scrollingType = fieldData.scrollingType;
+  scrollingDuration = fieldData.scrollingDuration;
   chatCommandsEnabled = parseInt(fieldData.chatCommandsEnabled);
   chatCommandsAllowModerator = fieldData.chatCommandsAllowModerator;
   chatCommandsAllowVIP = fieldData.chatCommandsAllowVIP;
@@ -305,22 +309,9 @@ function main() {
   prefixes.album = fieldData.albumPrefix;
 
   animateQueueEnabled = parseInt(fieldData.animateQueueEnabled);
-  if (animateQueueEnabled) {
-    let stylesheet, animateIn, animateOut, animateInDuration, animateHoldDuration, animateOutDuration;
-    animateIn = fieldData.animateIn;
-    animateInDuration = fieldData.animateInDuration;
-    animateHoldDuration = fieldData.animateHoldDuration;
-    animateOut = fieldData.animateOut;
-    animateOutDuration = fieldData.animateOutDuration;
-
-    stylesheet = document.styleSheets[0];
-    let rule = stylesheet.cssRules[stylesheet.cssRules.length - 1];
-
-    rule.style.animation = animateIn + " " + animateInDuration + "s, hold " + animateHoldDuration + "s " + animateInDuration + "s, " + animateOut + " " + animateOutDuration + "s " + (animateHoldDuration + animateInDuration) + "s";
-  }
   displayPrevious = fieldData.displayPrevious == "flex" ? true : false;
   displayCover = fieldData.displayCover == "flex" ? true : false;
-
+  checkAnimateQueue();
 
   el_container = document.getElementById("container");
   el_cover = document.getElementById("div-cover");
@@ -351,6 +342,26 @@ function main() {
 
   refreshInfo();
 }
+
+function checkAnimateQueue(scrolling = false) {
+  if (animateQueueEnabled) {
+    let stylesheet, animateIn, animateOut, animateInDuration, animateHoldDuration, animateOutDuration;
+    animateIn = fieldData.animateIn;
+    animateInDuration = fieldData.animateInDuration;
+    animateHoldDuration = fieldData.animateHoldDuration;
+    if (scrolling && fieldData.animateHoldDuration < scrollingDuration) {
+      animateHoldDuration = scrollingDuration;
+    }
+    animateOut = fieldData.animateOut;
+    animateOutDuration = fieldData.animateOutDuration;
+
+    stylesheet = document.styleSheets[0];
+    let rule = stylesheet.cssRules[stylesheet.cssRules.length - 1];
+
+    rule.style.animation = animateIn + " " + animateInDuration + "s, hold " + animateHoldDuration + "s " + animateInDuration + "s, " + animateOut + " " + animateOutDuration + "s " + (animateHoldDuration + animateInDuration) + "s";
+  }
+}
+
 
 /* Button clicked */
 window.addEventListener('onEventReceived', function (obj) {
