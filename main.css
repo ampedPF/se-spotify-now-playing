@@ -208,8 +208,8 @@ span {
 
 
 .scrolling-slide {
-    animation: slide 20s linear infinite;
-    animation-delay: -10s;
+    animation: slide {{scrollingDuration}}s linear infinite;
+    animation-delay: calc({{scrollingDuration}} / 2 * -1s);
 }
 
 @keyframes slide {
