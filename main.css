@@ -31,6 +31,9 @@ body {
     
     display: {{displayPrevious}};
     order: {{previousLocation}};
+    box-shadow: inset -19px 0px 3px -3px {{previousBGColor}},
+  							   0 0 0 1px {{previousBGColor}},
+  				inset  19px 0px 3px -3px {{previousBGColor}};
 }
 
 #previousText {    
@@ -207,27 +210,12 @@ span {
 }
 
 
-.scrolling-slide {
-    animation: slide {{scrollingDuration}}s linear infinite;
-    animation-delay: calc({{scrollingDuration}} / 2 * -1s);
-}
-
-@keyframes slide {
-    0% {
-        transform: translateX(100%);
-    }
-
-    50% {
-        transform: translateX(0%);
-    }
-
-    100% {
-        transform: translateX(-100%);
-    }
-}
-
 .scrolling-bafslide {
     animation: bafslide {{scrollingDuration}}s linear infinite;
+}
+
+.scrolling-bafslide-nocover {
+    animation: bafslide-nocover {{scrollingDuration}}s linear infinite;
 }
 
 @keyframes bafslide {
@@ -236,11 +224,33 @@ span {
     }
 
     40% {
-        transform: translateX(calc(-100% + 768px));
+        transform: translateX(calc(-100% + 96 / 100 * (100 - {{coverWidth}}) / 100 * 1000px));
     }
 
     50% {
-        transform: translateX(calc(-100% + 768px));
+        transform: translateX(calc(-100% + 96 / 100 * (100 - {{coverWidth}}) / 100 * 1000px));
+    }
+    
+    90% {
+        transform: translateX(0%);
+    }
+    
+    100% {
+        transform: translateX(0%);
+    }
+}
+
+@keyframes bafslide-nocover {
+    0% {
+        transform: translateX(0%);
+    }
+
+    40% {
+        transform: translateX(calc(-100% + 96 /100 * 1000px));
+    }
+
+    50% {
+        transform: translateX(calc(-100% + 96 /100 * 1000px));
     }
     
     90% {

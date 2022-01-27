@@ -160,15 +160,28 @@ function updateInfo() {
 
 function checkScrolling() {
   let scrolling = false;
-  for (let el of [el_track, el_artists, el_album, el_previous]) {
+  let nocover = "";
+  for (let el of [el_track, el_artists, el_album]) {
     el.classList.remove(scrollingType);
+    el.classList.remove(scrollingType + "-nocover");
+    if (!displayCover) nocover = "-nocover";
     if (el.offsetWidth >= el.parentNode.offsetWidth) {
       scrolling = true;
       setTimeout(() => {
-        el.classList.add(scrollingType);
+        el.classList.add(scrollingType + nocover);
       }, scrollingDelay * 1000);
     }
   }
+
+  if (el_previous.offsetWidth >= el_previous.parentNode.offsetWidth) {
+    scrolling = true;
+    el_previous.classList.remove(scrollingType + "-nocover");
+
+    setTimeout(() => {
+      el_previous.classList.add(scrollingType + "-nocover");
+    }, scrollingDelay * 1000);
+  }
+
   checkAnimateQueue(scrolling);
 }
 
@@ -181,7 +194,7 @@ function shoutoutTwitch() {
   if (shoutout !== undefined) {
     clearTimeout(shoutout);
   }
-  if (chatAutomaticUpdate) {
+  if (jwt_token !== "" && chatAutomaticUpdate) {
     shoutout = setTimeout(() => {
       sendTwitchMessage(actions.current, track);
     }, chatAutomaticUpdateDelay);
@@ -219,7 +232,7 @@ function refreshToken() {
 window.addEventListener('onEventReceived', function (obj) {
   let data = obj.detail.event.data;
 
-  if (chatCommandsEnabled && obj.detail.listener == "message") {
+  if (jwt_token !== "" && chatCommandsEnabled && obj.detail.listener == "message") {
     var badge = '';
     let message = data["text"].toLowerCase();
     var command = message.split(" ")[0];
@@ -291,7 +304,7 @@ function main() {
   messageError = fieldData.chatTextError;
   updateRefreshRate = fieldData.updateRefreshRate < 500 ? 500 : fieldData.updateRefreshRate;
   scrollingDelay = fieldData.scrollingDelay;
-  scrollingType = fieldData.scrollingType;
+  scrollingType = "scrolling-bafslide";
   scrollingDuration = fieldData.scrollingDuration;
   chatCommandsEnabled = parseInt(fieldData.chatCommandsEnabled);
   chatCommandsAllowModerator = fieldData.chatCommandsAllowModerator;

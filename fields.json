@@ -208,16 +208,6 @@
     "value": 2,
     "group": "Scrolling"
   },
-  "scrollingType": {
-    "label": "Scrolling Type",
-    "type": "dropdown",
-    "value": "flex",
-    "options": {
-      "scrolling-slide": "Slide",
-      "scrolling-bafslide": "Back and Forth"
-    },
-    "group": "Scrolling"
-  },
   "scrollingDuration": {
     "type": "number",
     "label": "Scrolling Duration (in seconds)",
