@@ -349,8 +349,8 @@ function checkAnimateQueue(scrolling = false) {
     animateIn = fieldData.animateIn;
     animateInDuration = fieldData.animateInDuration;
     animateHoldDuration = fieldData.animateHoldDuration;
-    if (scrolling && fieldData.animateHoldDuration < scrollingDuration) {
-      animateHoldDuration = scrollingDuration;
+    if (scrolling && fieldData.animateHoldDuration < (scrollingDuration + scrollingDelay) / 2) {
+      animateHoldDuration = (scrollingDuration + scrollingDelay) / 2;
     }
     animateOut = fieldData.animateOut;
     animateOutDuration = fieldData.animateOutDuration;
