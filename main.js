@@ -164,7 +164,7 @@ function checkScrolling() {
     if (el.offsetWidth >= el.parentNode.offsetWidth) {
       setTimeout(() => {
         el.classList.add(scrollingType);
-      }, scrollingDelay);
+      }, scrollingDelay * 1000);
     }
   }
 }

@@ -204,8 +204,8 @@
 
   "scrollingDelay": {
     "type": "number",
-    "label": "Scrolling Delay (in ms)",
-    "value": 1500,
+    "label": "Scrolling Delay (in seconds)",
+    "value": 2,
     "group": "Scrolling"
   },
   "scrollingType": {
@@ -216,6 +216,12 @@
       "scrolling-slide": "Slide",
       "scrolling-bafslide": "Back and Forth"
     },
+    "group": "Scrolling"
+  },
+  "scrollingDuration": {
+    "type": "number",
+    "label": "Scrolling Duration (in seconds)",
+    "value": 15,
     "group": "Scrolling"
   },
 
