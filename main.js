@@ -8,31 +8,31 @@ const commands = {
 };
 let fieldData;
 
-var chatCommandsEnabled = false;
-var chatCommandsAllowModerator = false;
-var chatCommandsAllowVIP = false;
-var chatCommandsAllowSubs = false;
-var chatCommandsAllowEveryone = false;
+let chatCommandsEnabled = false;
+let chatCommandsAllowModerator = false;
+let chatCommandsAllowVIP = false;
+let chatCommandsAllowSubs = false;
+let chatCommandsAllowEveryone = false;
 
 let displayPrevious = true;
 let displayCover = true;
 let previousPattern, messageCurrent, messagePrevious, messageError;
 let client_id, client_secret, access_token, refresh_token;
 let account_id, jwt_token;
-var expires_at = 0;
-var now = 0;
+let expires_at = 0;
+let now = 0;
 let shoutout;
 let chatAutomaticUpdate, chatAutomaticUpdateDelay, shoutoutDone;
 let chatCommandLastCallCurrent = 0;
 let chatCommandLastCallPrevious = 0;
 let chatCommandCallDelay = 0;
 
-var prefixes = {
+let prefixes = {
   artists: "",
   album: ""
 }
 
-var track = {
+let track = {
   name: "",
   artists: [],
   album: {
@@ -44,7 +44,7 @@ var track = {
   url: ""
 };
 
-var previous = {
+let previous = {
   name: "",
   artists: [],
   album: {
@@ -53,12 +53,13 @@ var previous = {
   },
   url: ""
 };
-var spotifyApi;
-var updateRefreshRate;
-var scrollingDelay, scrollingType;
+let spotifyApi;
+let updateRefreshRate;
+let scrollingDelay, scrollingType;
 
 let el_container, el_cover, el_cover_img, el_song, el_artists, el_album, el_track, el_previous,
   el_progress, el_progressText, el_progressText_current, el_progressBar_current, el_progressText_total;
+
 
 function refreshInfo() {
   now = Date.now();
@@ -69,32 +70,34 @@ function refreshInfo() {
   }
 }
 
+function refreshToken() {
+  //console.log("Refreshing token...");
+  fetch('https://accounts.spotify.com/api/token', {
+    method: 'POST',
+    headers: {
+      'Authorization': 'Basic ' + utf8_to_b64(client_id + ':' + client_secret),
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body: 'grant_type=refresh_token&refresh_token=' + refresh_token
+  }).then(res => res.json())
+  .then(res => {
+    access_token = res.access_token;
+    //console.log("res.expires_in: ", res.expires_in);
+    expires_at = Date.now() + res.expires_in * 1000;
+    //console.log("expires_at: ", new Date(expires_at));
+    fetchInfo();
+  });
+}
+
 /* Fetching info from Spotify API */
 function fetchInfo() {
-  //console.log("fetchInfo");
-  let http = new XMLHttpRequest();
-  let url = 'https://api.spotify.com/v1/me/player/currently-playing';
-  http.open('GET', url);
-
-  //Send the proper header information along with the request
-  http.setRequestHeader('Authorization', 'Bearer ' + access_token);
-  http.setRequestHeader('Content-Type', 'application/json');
-
-  http.onload = function () { //Call a function when the state changes.
-    if (http.readyState === 4) {
-      let data = null;
-      try {
-        data = http.responseText ? JSON.parse(http.responseText) : '';
-      } catch (e) {
-        console.error(e);
-      }
-
-      if (http.status == 200) {
-        process(data);
-      }
-    }
-  }
-  http.send();
+  fetch('https://api.spotify.com/v1/me/player/currently-playing', {
+    headers: new Headers({
+        'Authorization': 'Bearer '+access_token, 
+        'Content-Type': 'application/json'
+    })
+  }).then(res => res.json())
+  .then(res => process(res));
 }
 
 function process(data) {
@@ -134,6 +137,9 @@ function process(data) {
         shoutoutDone = false;
       }
     }
+    if (el_container.classList.contains("animateQueue")) {
+      el_container.classList.remove("animateQueue");
+    }
     if (el_container.classList.contains("animateIn")) {
       el_container.classList.remove("animateIn");
       if (!animateQueueEnabled) {
@@ -151,7 +157,7 @@ function updateInfo() {
   el_artists.innerText = prefixes.artists + track.artists;
   el_album.innerText = prefixes.album + track.album.name;
   el_cover_img.src = track.album.cover + "?t=" + track.name + track.artists;
-  el_progressText_total.innerText = msToTime(track.duration_ms);
+  el_progressText_total.innerText = timeToString(msToTime(track.duration_ms));
   if (displayPrevious && previous.name.length > 1 && previous.artists.length > 1 && previous.album.name.length > 1) {
     el_previous.innerText = processPattern(previousPattern, previous);
   }
@@ -186,7 +192,7 @@ function checkScrolling() {
 }
 
 function updateProgress() {
-  el_progressText_current.innerText = msToTime(track.progress_ms);
+  el_progressText_current.innerText = timeToString(msToTime(track.progress_ms));
   el_progressBar_current.style.width = (track.progress_ms / track.duration_ms * 100) + "%";
 }
 
@@ -202,40 +208,14 @@ function shoutoutTwitch() {
   }
 }
 
-function refreshToken() {
-  //console.log("refreshing token...");
-  var http = new XMLHttpRequest();
-  var url = 'https://accounts.spotify.com/api/token';
-  var params = 'grant_type=refresh_token&refresh_token=' + refresh_token;
-  http.open('POST', url, true);
-
-  //Send the proper header information along with the request
-  http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-
-  var auth_string = 'Basic ' + utf8_to_b64(client_id + ':' + client_secret);
-  http.setRequestHeader('Authorization', auth_string);
-
-  http.onreadystatechange = function () { //Call a function when the state changes.
-    if (http.readyState == 4 && http.status == 200) {
-      let res = JSON.parse(http.responseText);
-      access_token = res.access_token;
-      expires_at = Date.now() + res.expires_in * 1000;
-      //console.log("expires_at: ", expires_at);
-      fetchInfo();
-    }
-  }
-  http.send(params);
-}
-
-
 /* Sending message to Twitch chat via StreamElements bot */
 window.addEventListener('onEventReceived', function (obj) {
   let data = obj.detail.event.data;
 
   if (jwt_token !== "" && chatCommandsEnabled && obj.detail.listener == "message") {
-    var badge = '';
+    let badge = '';
     let message = data["text"].toLowerCase();
-    var command = message.split(" ")[0];
+    let command = message.split(" ")[0];
 
     if (data["badges"][0]["type"]) {
       badge = data["badges"][0]["type"];
@@ -269,9 +249,6 @@ async function sendTwitchMessage(which, track) {
     console.log("error: ", track);
     message = messageError;
   }
-  var data = {
-    message: message
-  };
   //console.log("message :", data);
 
   await fetch("https://api.streamelements.com/kappa/v2/bot/" + account_id + "/say", {
@@ -280,7 +257,7 @@ async function sendTwitchMessage(which, track) {
         'Content-Type': 'application/json;charset=utf-8',
         'Authorization': "Bearer " + jwt_token
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify({ message: message })
     })
     .then(response => response.json())
     /*.then(result => {
@@ -403,11 +380,11 @@ function utf8_to_b64(str) {
 }
 
 function parseArtists(artists) {
-  var str = "";
+  let str = "";
   if (artists.length == 1) {
     str = artists[0].name;
   } else {
-    for (var i = 0; i < artists.length; ++i) {
+    for (let i = 0; i < artists.length; ++i) {
       str = str + artists[i].name
       if (i < artists.length - 2) {
         str = str + ", ";
@@ -421,21 +398,25 @@ function parseArtists(artists) {
 
 // https://stackoverflow.com/questions/19700283/how-to-convert-time-in-milliseconds-to-hours-min-sec-format-in-javascript
 function msToTime(duration) {
-  var seconds = Math.floor((duration / 1000) % 60),
-    minutes = Math.floor((duration / (1000 * 60)) % 60),
-    hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
+  let time = {};
+  time.hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
+  time.minutes = Math.floor((duration / (1000 * 60)) % 60);
+  time.seconds = Math.floor((duration / 1000) % 60);
 
-  hours = (hours < 10) ? "0" + hours : hours;
-  minutes = (minutes < 10) ? "0" + minutes : minutes;
-  seconds = (seconds < 10) ? "0" + seconds : seconds;
-
-  let time = "";
-  if (hours > 0) {
-    time = hours + ":"
-  }
-  time = minutes + ":" + seconds;
-
+  time.hours = (time.hours < 10) ? "0" + time.hours : time.hours;
+  time.minutes = (time.minutes < 10) ? "0" + time.minutes : time.minutes;
+  time.seconds = (time.seconds < 10) ? "0" + time.seconds : time.seconds;
   return time;
+}
+
+function timeToString(time) {
+  let timeStr = "";
+  if (time.hours > 0) {
+    timeStr = time.hours + ":"
+  }
+  timeStr += time.minutes + ":" + time.seconds;
+
+  return timeStr;
 }
 
 function processPattern(message, track) {
@@ -446,20 +427,3 @@ function processPattern(message, track) {
 }
 
 /* End of utils */
-
-
-/* Loading from local env *
-$(document).ready(function() {
-  $.getJSON('./config.json', function (response) {
-    updateRefreshRate = response.updateRefreshRate;
-    client_id = response.spotify.client_id;
-    client_secret = response.spotify.client_secret;
-    access_token = response.spotify.access_token;
-    refresh_token = response.spotify.refresh_token;
-    account_id = response.streamelements.account_id;
-    jwt_token = response.streamelements.jwt_token;
-  }).fail(function () {
-    console.log("An error has occurred while loading config.json file.");
-  }).then(main());
-});
-* */
