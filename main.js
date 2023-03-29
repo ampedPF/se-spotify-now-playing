@@ -109,8 +109,8 @@ function fetchInfo() {
 function process(data) {
   if (data == undefined) {
     track = { ...blank_track };
-    updateRefreshRate = updateRefreshRate * 1.2;
-    console.log("updateRefreshRate updated to", updateRefreshRate);
+    updateRefreshRate = updateRefreshRate >= 15000 ? 15000 : updateRefreshRate * 1.2;
+    console.log("updateRefreshRate set to", updateRefreshRate);
   } else {
     if(updateRefreshRate > updateRefreshRate_original) {
       updateRefreshRate = updateRefreshRate_original;
