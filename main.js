@@ -44,6 +44,8 @@ let track = {
   url: ""
 };
 
+let blank_track = { ...track };
+
 let previous = {
   name: "",
   artists: [],
@@ -54,7 +56,7 @@ let previous = {
   url: ""
 };
 let spotifyApi;
-let updateRefreshRate;
+let updateRefreshRate, updateRefreshRate_original;
 let scrollingDelay, scrollingType;
 
 let el_container, el_cover, el_cover_img, el_song, el_artists, el_album, el_track, el_previous,
@@ -96,57 +98,71 @@ function fetchInfo() {
         'Authorization': 'Bearer '+access_token, 
         'Content-Type': 'application/json'
     })
-  }).then(res => res.json())
+  })
+  .then(res => res.json())
+  .catch(err => {
+    console.log("Spotify may not be running and playing -->", err);
+  })
   .then(res => process(res));
 }
 
 function process(data) {
-  if (data.is_playing) {
-    el_container.classList.remove("animateOut");
-    if (animateQueueEnabled) {
-      el_container.classList.add("animateQueue");
-    } else {
-      el_container.classList.add("animateIn");
-      el_container.style.opacity = 1;
-    }
-    widgetVisible = true;
-    let temp_artists = parseArtists(data.item.artists);
-    if (track.artists != temp_artists ||
-      track.album.name != data.item.album.name ||
-      track.name != data.item.name) {
-      previous = JSON.parse(JSON.stringify(track));
-      track.artists = temp_artists;
-      track.album.name = data.item.album.name;
-      track.album.cover = data.item.album.images[0].url;
-      track.name = data.item.name;
-      track.url = data.item.external_urls.spotify;
-      track.duration_ms = data.item.duration_ms;
-      updateInfo();
-      el_container.classList.remove("animateQueue");
-      shoutoutDone = false;
-    }
-    if (!shoutoutDone) {
-      shoutoutTwitch();
-    }
-    track.progress_ms = data.progress_ms;
-    updateProgress();
+  if (data == undefined) {
+    track = { ...blank_track };
+    updateRefreshRate = updateRefreshRate * 1.2;
+    console.log("updateRefreshRate updated to", updateRefreshRate);
   } else {
-    if (shoutout !== undefined) {
-      clearTimeout(shoutout);
-      if (track.progress_ms < chatAutomaticUpdateDelay) {
+    if(updateRefreshRate > updateRefreshRate_original) {
+      updateRefreshRate = updateRefreshRate_original;
+      console.log("updateRefreshRate reverted back to", updateRefreshRate);
+    }
+    if (data.is_playing !== undefined && data.is_playing) {
+      el_container.classList.remove("animateOut");
+      if (animateQueueEnabled) {
+        el_container.classList.add("animateQueue");
+      } else {
+        el_container.classList.add("animateIn");
+        el_container.style.opacity = 1;
+      }
+      widgetVisible = true;
+      let temp_artists = parseArtists(data.item.artists);
+      if (track.artists != temp_artists ||
+        track.album.name != data.item.album.name ||
+        track.name != data.item.name) {
+        previous = JSON.parse(JSON.stringify(track));
+        track.artists = temp_artists;
+        track.album.name = data.item.album.name;
+        track.album.cover = data.item.album.images[0].url;
+        track.name = data.item.name;
+        track.url = data.item.external_urls.spotify;
+        track.duration_ms = data.item.duration_ms;
+        updateInfo();
+        el_container.classList.remove("animateQueue");
         shoutoutDone = false;
       }
-    }
-    if (el_container.classList.contains("animateQueue")) {
-      el_container.classList.remove("animateQueue");
-    }
-    if (el_container.classList.contains("animateIn")) {
-      el_container.classList.remove("animateIn");
-      if (!animateQueueEnabled) {
-        el_container.classList.add("animateOut");
+      if (!shoutoutDone) {
+        shoutoutTwitch();
       }
-      el_container.style.opacity = 0;
-      widgetVisible = false;
+      track.progress_ms = data.progress_ms;
+      updateProgress();
+    } else {
+      if (shoutout !== undefined) {
+        clearTimeout(shoutout);
+        if (track.progress_ms < chatAutomaticUpdateDelay) {
+          shoutoutDone = false;
+        }
+      }
+      /*if (el_container.classList.contains("animateQueue")) {
+        el_container.classList.remove("animateQueue");
+      }*/
+      if (el_container.classList.contains("animateIn")) {
+        el_container.classList.remove("animateIn");
+        if (!animateQueueEnabled) {
+          el_container.classList.add("animateOut");
+        }
+        el_container.style.opacity = 0;
+        widgetVisible = false;
+      }
     }
   }
   setTimeout(refreshInfo, updateRefreshRate);
@@ -280,6 +296,7 @@ function main() {
   messagePrevious = fieldData.chatTextPrevious;
   messageError = fieldData.chatTextError;
   updateRefreshRate = fieldData.updateRefreshRate < 500 ? 500 : fieldData.updateRefreshRate;
+  updateRefreshRate_original = updateRefreshRate;
   scrollingDelay = fieldData.scrollingDelay;
   scrollingType = "scrolling-bafslide";
   scrollingDuration = fieldData.scrollingDuration;
